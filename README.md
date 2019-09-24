@@ -43,7 +43,7 @@ mysql >> USE siganbang;
 $ python manage.py migrate
 <!-- migrate to mysql database -->
 
-mysql >> EXPLAIN `tablename`
+mysql >> EXPLAIN `tablename`;
 <!-- in our case, EXPLATIN post_post; can show post app's model -->
 <!-- check your table's structure -->
 ```
