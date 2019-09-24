@@ -25,3 +25,25 @@ $ pip install -r requirements.txt
     - Issue fix branch for main build codes
     - ex. `fix/django/#123/route_fix`
 
+## :card_file_box: Database
+
+```
+$ mysql -uroot -p
+<!-- enter your password -->
+
+mysql >> CREATE DATABASE siganbang;
+<!-- create 'siganbang' database -->
+
+mysql >> SHOW DATABASES;
+<!-- check databases -->
+
+mysql >> USE siganbang;
+<!-- use siganbang database -->
+
+$ python manage.py migrate
+<!-- migrate to mysql database -->
+
+mysql >> EXPLAIN `tablename`;
+<!-- in our case, EXPLATIN post_post; can show post app's model -->
+<!-- check your table's structure -->
+```

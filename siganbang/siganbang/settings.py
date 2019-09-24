@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'post'
+    'user.apps.UserConfig',
+    'role.apps.RoleConfig',
+    'category.apps.CategoryConfig',
+    'post.apps.PostConfig',
+    'comment.apps.CommentConfig'
 ]
 
 # Django REST framework
@@ -85,8 +89,12 @@ WSGI_APPLICATION = 'siganbang.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'siganbang',
+        'USER': 'root',
+        'PASSWORD': 'Rakutenno01!',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
