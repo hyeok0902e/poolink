@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # django third-party apps
     'rest_framework',
+    'mptt',
+
+    # forum db apps
     'user.apps.UserConfig',
     'role.apps.RoleConfig',
     'category.apps.CategoryConfig',
