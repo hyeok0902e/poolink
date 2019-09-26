@@ -6,7 +6,7 @@ class Post(models.Model):
     category = models.ForeignKey('category.Category', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
     content = models.TextField()
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -14,7 +14,6 @@ class Post(models.Model):
         return '"{}" in "{}". "{}" tagged'.format(self.title, self.category, ', '.join([tag.name for tag in self.tags.all()]))
 
 
-# Post-Tag M2M relationship
 class Tag(models.Model):
     name = models.CharField(max_length=64, null=True)
     
