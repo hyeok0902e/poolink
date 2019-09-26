@@ -10,5 +10,8 @@ class Comment(MPTTModel):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return '{} : {}'.format(self.user, self.content)
+
     def __str__(self):
         return '{} : {}'.format(self.user, self.content)
