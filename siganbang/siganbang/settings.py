@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # django third-party apps
     'rest_framework',
     'mptt',
+    'tagging.apps.TaggingConfig',
 
     # forum db apps
     'user.apps.UserConfig',
@@ -53,8 +54,8 @@ INSTALLED_APPS = [
 # Django REST framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
     ]
 }
 
