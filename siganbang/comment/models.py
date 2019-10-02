@@ -2,6 +2,7 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 class Comment(MPTTModel):
+    # user, post > null True 제거
     user = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True)
     post = models.ForeignKey('post.Post', on_delete=models.CASCADE, null=True)
     parent = TreeForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
