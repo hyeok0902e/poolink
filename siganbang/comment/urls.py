@@ -5,8 +5,8 @@ from comment import views
 app_name = 'comment'
 
 urlpatterns = [
-    path('', views.CommentList.as_view(), name="comment_list"),
-    path('<int:comment_id>', views.CommentDetail.as_view(), name="comment_detail"),
+    path('', views.CommentList.as_view(), name="list"),
+    path('<int:comment_id>/', views.CommentDetail.as_view(), name="detail"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

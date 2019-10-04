@@ -5,8 +5,8 @@ from post import views
 app_name = 'post'
 
 urlpatterns = [
-    path('', views.PostList.as_view(), name="post_list"),
-    path('<int:post_id>', views.PostDetail.as_view(), name="post_detail"),
+    path('', views.PostList.as_view(), name="list"),
+    path('<int:post_id>/', views.PostDetail.as_view(), name="detail"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
