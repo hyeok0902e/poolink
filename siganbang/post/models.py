@@ -17,3 +17,6 @@ class Post(models.Model):
 
     def __unicode__(self):
         return 'post title : "{}"'.format(self.title)
+
+    class Meta:
+        db_table = 'posts'

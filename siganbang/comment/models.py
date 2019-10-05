@@ -16,3 +16,6 @@ class Comment(MPTTModel):
 
     def __str__(self):
         return '{} : {}'.format(self.user, self.content)
+
+    class Meta:
+        db_table = 'comments'
