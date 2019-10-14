@@ -1,10 +1,11 @@
+from django.conf import settings
 from django.db import models
 from tagging.fields import TagField
 
 # TODO: image upload field
 class Post(models.Model):
     # user, category null True 제거해야함
-    user = models.ForeignKey('user.User', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey('category.Category', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
     content = models.TextField()
