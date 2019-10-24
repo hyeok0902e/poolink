@@ -123,3 +123,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Migration file
+migrations/
+
+# vscode directory
+.vscode/
