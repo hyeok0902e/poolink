@@ -1,9 +1,9 @@
-# :hourglass_flowing_sand: siganbang
+# :hourglass_flowing_sand: poolink
 
-![Update](https://img.shields.io/github/last-commit/tigermeal/siganbang)
+![Update](https://img.shields.io/github/last-commit/tigermeal/poolink)
 ![Django](https://img.shields.io/badge/Django-v2.2.5-green)
 
-`siganbang` is killing-time web forum.
+`poolink` is killing-time web forum.
 
 ## :rocket: Install
 
@@ -34,14 +34,14 @@ $ pip install -r requirements.txt
 $ mysql -uroot -p
 <!-- Enter your password -->
 
-mysql >> CREATE DATABASE siganbang;
-<!-- Create 'siganbang' database -->
+mysql >> CREATE DATABASE poolink;
+<!-- Create 'poolink' database -->
 
 mysql >> SHOW DATABASES;
 <!-- Check databases -->
 
-mysql >> USE siganbang;
-<!-- Use siganbang database -->
+mysql >> USE poolink;
+<!-- Use poolink database -->
 
 $ python manage.py migrate
 <!-- Migrate to mysql database -->
