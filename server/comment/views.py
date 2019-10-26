@@ -6,6 +6,8 @@ from .models import Comment
 from .serializers import CommentSerializer
 
 class CommentList(APIView):
+    serializer_class = CommentSerializer
+
     def get(self, request, format=None):
         comments = Comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
@@ -14,11 +16,13 @@ class CommentList(APIView):
     def post(self, request, format=None):
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.erros, status=status.HTTP_400_BAD_REQUEST)
 
 class CommentDetail(APIView):
+    serializer_class = CommentSerializer
+
     def get_object(self, comment_id):
         try:
             return Comment.objects.get(pk=comment_id)
@@ -34,7 +38,7 @@ class CommentDetail(APIView):
         comment = self.get_object(comment_id)
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=self.request.user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
