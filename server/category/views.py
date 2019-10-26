@@ -6,6 +6,8 @@ from .models import Category
 from .serializers import CategorySerializer
 
 class CategoryList(APIView):
+    serializer_class = CategorySerializer
+
     def get(self, request, format=None):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
@@ -14,11 +16,13 @@ class CategoryList(APIView):
     def post(self, request, format=None):
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.erros, status=status.HTTP_400_BAD_REQUEST)
 
 class CategoryDetail(APIView):
+    serializer_class = CategorySerializer
+
     def get_object(self, category_id):
         try:
             return Category.objects.get(pk=category_id)
@@ -34,7 +38,7 @@ class CategoryDetail(APIView):
         category = self.get_object(category_id)
         serializer = CategorySerializer(category, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=self.request.user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
