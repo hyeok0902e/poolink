@@ -22,6 +22,7 @@ from .serializers import (
 User = get_user_model()
 
 class UserCreateAPIView(CreateAPIView):
+    permission_classes = [AllowAny]
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
 
