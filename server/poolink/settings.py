@@ -74,13 +74,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-"""
-TOKEN TRY
-curl -X POST -d "email=<user-email>&password=<password>" http://127.0.0.1:8000/api/auth/token/
-curl -H "Authorization: JWT <User Token>" http://127.0.0.1:8000/api/comments/
-curl http://127.0.0.1.8000/api/comments/
-curl -X POST -H "Authorization: JWT <User Token>" -H "Content-Type: application/json" -d '{"title":"token try", "content": "token try"}' 'http://127.0.0.1:8000/api/posts/'
-"""
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
