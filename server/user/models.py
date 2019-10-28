@@ -32,7 +32,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    object = UserAccountManager()
+    objects = UserAccountManager()
 
     # users are identified by email
     USERNAME_FIELD = 'email'
