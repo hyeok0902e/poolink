@@ -1,7 +1,14 @@
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import (
+    BaseUserManager,
+    AbstractBaseUser,
+    PermissionsMixin
+)
 from django.db import models
+from django.utils import timezone
+
 
 class UserAccountManager(BaseUserManager):
+
     def create_user(self, username, email, password=None):
         if not email:
             raise ValueError('Email missing')
@@ -20,19 +27,18 @@ class UserAccountManager(BaseUserManager):
             password=password
         )
         user.is_admin = True
-        user.is_superuser = True
-        user.is_active = True
+
         user.save(using=self._db)
         return user
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=30, default="")
+    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
 
-    object = UserAccountManager()
+    objects = UserAccountManager()
 
     # users are identified by email
     USERNAME_FIELD = 'email'
@@ -47,7 +53,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def has_module_perms(self, app_label):
-        if self.is_active and self.is_superuser:
+        if self.is_active:
             return True
 
     def has_perm(self, perm, obj=None):

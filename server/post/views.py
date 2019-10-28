@@ -7,14 +7,13 @@ from .serializers import PostSerializer
 
 class PostList(APIView):
     serializer_class = PostSerializer
-
+    
     def get(self, request, format=None):
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=self.request.user)
