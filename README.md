@@ -1,9 +1,7 @@
-# :hourglass_flowing_sand: poolink
+# :hourglass_flowing_sand: POOLINK
 
 ![Update](https://img.shields.io/github/last-commit/tigermeal/poolink)
-
 ![Django](https://img.shields.io/badge/Django-v2.2.5-green)
-
 ![Pip](https://img.shields.io/badge/pypi-v19.3.1-blue)
 
 
@@ -11,11 +9,11 @@
 
 ## :rocket: Installation
 
+:rotating_light: Please, Install package of pip in virtual environment
+
 Before launching the project, you have to install packages.
 
 Install using `pip`
-
-:rotating_light: Please, Install package of pip in virtual environment
 
 ```
 $ pip install -r requirements.txt
