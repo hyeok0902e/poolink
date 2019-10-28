@@ -55,22 +55,32 @@ INSTALLED_APPS = [
 ]
 
 # Django REST framework
-
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-        # Shoul have change this option after renovate APIViews
-        # 'rest_framework.permissions.IsAuthenticationAndReadOnly',
+
+        # TODO : Shoul have change this option after renovate APIViews
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        # 'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+"""
+TOKEN TRY
+curl -X POST -d "email=<user-email>&password=<password>" http://127.0.0.1:8000/api/auth/token/
+curl -H "Authorization: JWT <User Token>" http://127.0.0.1:8000/api/comments/
+curl http://127.0.0.1.8000/api/comments/
+curl -X POST -H "Authorization: JWT <User Token>" -H "Content-Type: application/json" -d '{"title":"token try", "content": "token try"}' 'http://127.0.0.1:8000/api/posts/'
+"""
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,7 +155,7 @@ AUTENTICATION_BACKENDS = (
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Seoul'
 
