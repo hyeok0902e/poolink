@@ -6,6 +6,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('rest-auth/', include('rest_framework.urls')),
 
     path('api/posts/', include('post.urls', namespace='post')),
     path('api/comments/', include('comment.urls', namespace='comment')),
