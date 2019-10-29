@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from tagging.fields import TagField
 
+
 # TODO: image upload field
 class Post(models.Model):
     # user, category null True 제거해야함
