@@ -32,7 +32,7 @@ $ pip install -r requirements.txt
 
 - `fix/something/<issue_num>/explain`
     - Issue fix branch for main build codes
-    - ex. `fix/django-backend/#123/route_fix`
+    - ex. `fix/django-backend/<issue-num>/route_fix`
 
 
 ## :card_file_box: Database (MySql)
