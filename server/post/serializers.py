@@ -2,7 +2,6 @@ from rest_framework import serializers
 from user.serializers import UserDetailSeiralizer
 from .models import Post
 
-
 class PostListSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
     class Meta:
