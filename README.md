@@ -26,7 +26,7 @@ $ pip install -r requirements.txt
     - ex. `build/django-backend`
 
 - `feature/something`
-    - Feature test branch for main build codes
+    - Feature test branch for builded codes
     - Named basing on `build/something`
     - ex. `feature/django-backend/<feature_name>`
 
