@@ -10,7 +10,6 @@ from .models import Post
 
 class PostListSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
-    comments_count = serializers.SerializerMethodField()
     class Meta:
         model = Post
         fields = [
@@ -19,15 +18,9 @@ class PostListSerializer(serializers.ModelSerializer):
             'title',
             'content',
             'user',
-            'comments_count',
             'created_at',
         ]
-    
-    def get_comments_count(self, obj):
-        c_qs = Comment.objects.filter_by_instance(obj)
-        comments_count = CommentDetailSerializer(c_qs, many=True).data[0]['reply_count'] + 1
-        return comments_count
-        
+
     
 class PostDetailSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
