@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from user.serializers import UserDetailSeiralizer
+from comment.serializers import (
+    CommentListSerializer,
+    CommentDetailSerializer,
+)
+from comment.models import Comment
 from .models import Post
+
 
 class PostListSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
@@ -12,13 +18,13 @@ class PostListSerializer(serializers.ModelSerializer):
             'title',
             'content',
             'user',
-            'tags',
             'created_at',
-            'updated_at',
         ]
 
+    
 class PostDetailSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
+    comments = serializers.SerializerMethodField()
     class Meta:
         model = Post
         fields = [
@@ -29,8 +35,14 @@ class PostDetailSerializer(serializers.ModelSerializer):
             'user',
             'tags',
             'created_at',
-            'updated_at',
+            'comments',
         ]
+
+    def get_comments(self, obj):
+        c_qs = Comment.objects.filter_by_instance(obj)
+        comments = CommentDetailSerializer(c_qs, many=True).data
+        return comments
+        
 
 # user should to change to request.user
 class PostCreateUpdateSerializer(serializers.ModelSerializer):

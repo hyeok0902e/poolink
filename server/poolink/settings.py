@@ -27,9 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# UserAuth model
-
-AUTH_USER_MODEL = 'user.User'
 
 # Application definition
 
@@ -43,7 +40,6 @@ INSTALLED_APPS = [
 
     # django third-party apps
     'rest_framework',
-    'mptt',
     'tagging.apps.TaggingConfig',
 
     # forum db apps
@@ -53,6 +49,9 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'comment.apps.CommentConfig'
 ]
+
+# UserAuth model
+AUTH_USER_MODEL = 'user.User'
 
 # Django REST framework
 REST_FRAMEWORK = {

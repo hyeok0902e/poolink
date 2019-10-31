@@ -1,48 +1,81 @@
-from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+    IsAuthenticatedOrReadOnly,
+)
+from .permissions import IsOwnerOrReadOnly
+from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveAPIView,
+    DestroyAPIView,
+    CreateAPIView,
+    RetrieveUpdateAPIView,
+)
+from .pagination import (
+    PostLimitOffsetPagination,
+    PostPageNumberPagination,
+)
+from rest_framework.filters import (
+    SearchFilter,
+    OrderingFilter,
+)
+from .serializers import (
+    CommentListSerializer,
+    CommentDetailSerializer,
+    create_comment_serializer,
+)
+from django.db.models import Q
 from .models import Comment
-from .serializers import CommentSerializer
 
-class CommentList(APIView):
-    serializer_class = CommentSerializer
 
-    def get(self, request, format=None):
-        comments = Comment.objects.all()
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+class CommentListAPIView(ListAPIView):
+    serializer_class = CommentListSerializer
+    permission_classes = [AllowAny]
+    pagination_class = PostPageNumberPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['content', 'user__username']
 
-    def post(self, request, format=None):
-        serializer = CommentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.erros, status=status.HTTP_400_BAD_REQUEST)
+    # pagination_class = CommentPageNumberPagination
 
-class CommentDetail(APIView):
-    serializer_class = CommentSerializer
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Comment.objects.all()
+        query = self.request.GET.get("query")
+        if query:
+            queryset_list = queryset_list.filter(
+                Q(user__username__icontains=query) |
+                Q(content__icontains=query)
+            ).distinct()
+        return queryset_list
 
-    def get_object(self, comment_id):
-        try:
-            return Comment.objects.get(pk=comment_id)
-        except Comment.DoesNotExist:
-            raise Http404
 
-    def get(self, request, comment_id, format=None):
-        comment = self.get_object(comment_id)
-        serializer = CommentSerializer(comment)
-        return Response(serializer.data)
+class CommentCreateAPIView(CreateAPIView):
+    queryset = Comment.objects.all()
+    permission_classes = [IsAuthenticated]
 
-    def put(self, request, comment_id, format=None):
-        comment = self.get_object(comment_id)
-        serializer = CommentSerializer(comment, data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        model_type = self.request.GET.get('type')
+        id = self.request.GET.get('id')
+        parent_id = self.request.GET.get('parent_id')
+        return create_comment_serializer(
+                model_type=model_type,
+                id=id, 
+                parent_id=parent_id, 
+                user=self.request.user
+                )
 
-    def delete(self, request, comment_id, format=None):
-        comment = self.get_object(comment_id)
-        comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
+    queryset = Comment.objects.filter(id__gte=0)
+    serializer_class = CommentDetailSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    lookup_field = 'id'
+    lookup_url_kwarg = 'comment_id'
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
