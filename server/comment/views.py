@@ -7,12 +7,17 @@ from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
 )
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
     DestroyAPIView,
     CreateAPIView,
     RetrieveUpdateAPIView,
+)
+from .pagination import (
+    PostLimitOffsetPagination,
+    PostPageNumberPagination,
 )
 from rest_framework.filters import (
     SearchFilter,
@@ -30,6 +35,7 @@ from .models import Comment
 class CommentListAPIView(ListAPIView):
     serializer_class = CommentListSerializer
     permission_classes = [AllowAny]
+    pagination_class = PostPageNumberPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['content', 'user__username']
 
@@ -45,12 +51,6 @@ class CommentListAPIView(ListAPIView):
             ).distinct()
         return queryset_list
 
-class CommentDetailAPIView(RetrieveAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = CommentDetailSerializer
-    queryset = Comment.objects.all()
-    lookup_field = 'id'
-    lookup_url_kwarg = 'comment_id'
 
 class CommentCreateAPIView(CreateAPIView):
     queryset = Comment.objects.all()
@@ -67,5 +67,15 @@ class CommentCreateAPIView(CreateAPIView):
                 user=self.request.user
                 )
 
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
+    queryset = Comment.objects.filter(id__gte=0)
+    serializer_class = CommentDetailSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    lookup_field = 'id'
+    lookup_url_kwarg = 'comment_id'
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

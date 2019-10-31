@@ -67,6 +67,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
             if not user_obj.check_password(password):
                 raise serializers.ValidationError("Incorrect credentials")
         
+        # TODO: Fix here
         data['token'] = 'SOME TOKEN'
 
         return data
