@@ -31,6 +31,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = CommentManager()
+
     class Meta:
         ordering = ['-created_at']
         db_table = 'comments'
@@ -40,12 +42,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return '{} : {}'.format(self.user, self.content)
-
-    def get_absolute_url(self):
-        return reverse("comment:detail", kwargs={"id": self.id})
-
-    def get_delete_url(self):
-        return reverse('comment:delete', kwargs={"id": self.id})
 
     def children(self):
         return Comment.objects.filter(parent=self)
