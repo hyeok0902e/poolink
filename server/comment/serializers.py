@@ -26,14 +26,23 @@ class CommentListSerializer(serializers.ModelSerializer):
 
 class CommentChildSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
+    replies = serializers.SerializerMethodField()
     class Meta:
         model = Comment
         fields = [
             'id',
             'content',
             'user',
+            'replies',
             'created_at',
         ]
+
+    # reply to field can be solution of nested comments
+    # reply_to doesn't exists -> replies -> doesn't shown
+    # reply_to exists -> replies -> should be shown
+    def get_replies(self, obj):
+        return CommentChildSerializer(obj.children(), many=True).data
+    
 
 class CommentDetailSerializer(serializers.ModelSerializer):
     reply_count = serializers.SerializerMethodField()
