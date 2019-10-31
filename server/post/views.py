@@ -27,13 +27,9 @@ from .serializers import (
     PostDetailSerializer,
     PostCreateUpdateSerializer,
 )
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from .models import Post
 
-# Default user test
-User = get_user_model()
-User_obj = User.objects.all().first()
 
 class PostListAPIView(ListAPIView):
     serializer_class = PostListSerializer
@@ -69,7 +65,6 @@ class PostCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         # TODO: request get user
         serializer.save(user=self.request.user)
-        # serializer.save(user=User_obj)
 
 class PostUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
@@ -81,8 +76,6 @@ class PostUpdateAPIView(RetrieveUpdateAPIView):
     def perform_update(self, serializer):
         # TODO: request get user
         serializer.save(user=self.request.user)
-        # serializer.save(user=User_obj)
-
 
 class PostDeleteAPIView(DestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]

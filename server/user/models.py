@@ -1,14 +1,14 @@
 from django.contrib.auth.models import (
     BaseUserManager,
     AbstractBaseUser,
+    AbstractUser,
     PermissionsMixin
 )
 from django.db import models
 from django.utils import timezone
 
 
-class UserAccountManager(BaseUserManager):
-
+class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
         if not email:
             raise ValueError('Email missing')
@@ -37,13 +37,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-
-    objects = UserAccountManager()
+    
+    objects = UserManager()
 
     # users are identified by email
     USERNAME_FIELD = 'email'
     # required fields to registe
     REQUIRED_FIELDS = ['username']
+
+    class Meta:
+        db_table = 'users'
 
     def __str__(self):
         return "username: " + self.username
@@ -65,6 +68,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.username
-
-    class Meta:
-        db_table = 'users'
