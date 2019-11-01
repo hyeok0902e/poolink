@@ -10,10 +10,15 @@ from .models import Post
 
 class PostListSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
+    url = serializers.HyperlinkedIdentityField(
+        view_name='posts-api:detail',
+        lookup_url_kwarg='post_id'
+    )
     class Meta:
         model = Post
         fields = [
             'id',
+            'url',
             'category',
             'title',
             'content',

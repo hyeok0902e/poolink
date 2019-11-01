@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from comment import views
 
-app_name = 'comment'
+app_name = 'comments-api'
 
 urlpatterns = [
     path('', views.CommentListAPIView.as_view(), name="list"),

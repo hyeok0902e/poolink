@@ -39,10 +39,9 @@ class CommentListAPIView(ListAPIView):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['content', 'user__username']
 
-    # pagination_class = CommentPageNumberPagination
 
     def get_queryset(self, *args, **kwargs):
-        queryset_list = Comment.objects.all()
+        queryset_list = Comment.objects.filter(id__gte=0)
         query = self.request.GET.get("query")
         if query:
             queryset_list = queryset_list.filter(
@@ -70,7 +69,7 @@ class CommentCreateAPIView(CreateAPIView):
 class CommentDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
     queryset = Comment.objects.filter(id__gte=0)
     serializer_class = CommentDetailSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
     lookup_field = 'id'
     lookup_url_kwarg = 'comment_id'
 

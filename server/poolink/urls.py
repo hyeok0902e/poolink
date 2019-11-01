@@ -8,10 +8,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('rest-auth/', include('rest_framework.urls')),
 
-    path('api/posts/', include('post.urls', namespace='posts-api')),
-    path('api/comments/', include('comment.urls', namespace='comments-api')),
-    path('api/categories/', include('category.urls', namespace='categories-api')),
-    path('api/users/', include('user.urls', namespace='users-api')),
+    path('api/posts/', include('post.urls', 'posts-api')),
+    path('api/comments/', include('comment.urls', 'comments-api')),
+    path('api/categories/', include('category.urls', 'categories-api')),
+    path('api/users/', include('user.urls', 'users-api')),
     path('api/auth/token/', obtain_jwt_token),
 ]
 
