@@ -6,7 +6,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils import timezone
-
+import uuid
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -36,6 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30, default="")
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    
     date_joined = models.DateTimeField(default=timezone.now)
     
     objects = UserManager()

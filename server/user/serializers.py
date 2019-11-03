@@ -1,8 +1,26 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework_jwt.settings import api_settings
 
 User = get_user_model()
 
+class UserListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='users-api:detail',
+        lookup_url_kwarg='user_id'
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'url',
+            'id',
+            'email',
+            'is_admin',
+            'username',
+        ]
+
+        
 class UserDetailSeiralizer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -12,14 +30,25 @@ class UserDetailSeiralizer(serializers.ModelSerializer):
         ]
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    token = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
+            'token',
             'email',
             'username',
             'password',
         ]
         extra_kwargs = {"password":{"write_only": True}}
+
+    def get_token(self, obj):
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+        payload = jwt_payload_handler(obj)
+        token = jwt_encode_handler(payload)
+        return token
     
     def create(self, vaildated_data):
         email = vaildated_data['email']
@@ -31,7 +60,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         )
         user_obj.set_password(password)
         user_obj.save()
-        return vaildated_data
+        return user_obj
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
@@ -45,9 +74,8 @@ class UserLoginSerializer(serializers.ModelSerializer):
             'password',
             'token',
         ]
-
         extra_kwargs = {"password":{"write_only": True}}
-
+    
     def validate(self, data):
         user_obj = None
         email = data.get('email', None)
@@ -65,9 +93,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
             
         if user_obj:
             if not user_obj.check_password(password):
-                raise serializers.ValidationError("Incorrect credentials")
+                raise serializers.ValidationError("Password is not valid")
         
-        # TODO: Fix here
-        data['token'] = 'SOME TOKEN'
-
         return data
+    

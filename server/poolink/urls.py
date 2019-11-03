@@ -2,17 +2,26 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import urls
 
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import (
+    obtain_jwt_token,
+    verify_jwt_token,
+    refresh_jwt_token
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('rest-auth/', include('rest_framework.urls')),
 
+    # token
+    path('api/auth/token/', obtain_jwt_token),
+    path('api/auth/token/verify/', verify_jwt_token),
+    path('api/auth/token/refresh/', refresh_jwt_token),
+    
+    # api
     path('api/posts/', include('post.urls', 'posts-api')),
     path('api/comments/', include('comment.urls', 'comments-api')),
     path('api/categories/', include('category.urls', 'categories-api')),
     path('api/users/', include('user.urls', 'users-api')),
-    path('api/auth/token/', obtain_jwt_token),
 ]
 
 
