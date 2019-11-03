@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    state = {
+        posts: []
+    };
+
+    async componentDidMount() {
+        try {
+            const res = await fetch('http://127.0.0.1:8000/api/posts/');
+            const posts = await res.json();
+            console.log('posts : ', posts);
+            this.setState({
+                posts: posts['results']
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.posts.map(post => (
+                  <div key={post.id}>
+                    <h1>{post.title}</h1>
+                    <span>{post.content}</span>
+                  </div>
+                ))}
+            </div>
+        );
+    }
 }
 
 export default App;

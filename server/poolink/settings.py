@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # django third-party apps
     'rest_framework',
     'tagging.apps.TaggingConfig',
+    'corsheaders',
 
     # forum db apps
     'user.apps.UserConfig',
@@ -84,6 +85,8 @@ JWT_AUTH = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -112,6 +115,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'poolink.wsgi.application'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://192.168.200.127:3000"
+]
 
 
 # Database

@@ -3,11 +3,14 @@
 ![Update](https://img.shields.io/github/last-commit/tigermeal/poolink)
 ![Django](https://img.shields.io/badge/Django-v2.2.5-green)
 ![Pip](https://img.shields.io/badge/pypi-v19.3.1-blue)
+![React](https://img.shields.io/badge/React-v16.11.0-blue)
 
 
 `poolink` is newbie's web forum making project.
 
-## :rocket: Installation
+## :building_construction: Installation
+
+### Server
 
 :rotating_light: Please, Install package of pip in virtual environment
 
@@ -17,6 +20,37 @@ Install using `pip`
 
 ```
 $ pip install -r requirements.txt
+```
+
+### Client
+
+First, you should to install `Yarn`
+
+```
+<!-- Using brew -->
+$ brew install yarn
+<!-- Using npm -->
+$ npm install --global yarn
+```
+
+After installation of `yarn`, move to client directory and launch yarn
+```
+$ cd client
+$ yarn
+```
+
+## :rocket: Launch
+
+### Server
+
+```
+python manage.py runserver
+```
+
+### Client
+
+```
+yarn start
 ```
 
 ## :pencil: Branch naming rules
