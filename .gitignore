@@ -124,3 +124,13 @@ dmypy.json
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+
+# react
+
+.DS_*
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_componets
