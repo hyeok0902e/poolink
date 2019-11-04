@@ -79,6 +79,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'email',
+            'username',
             'password',
             'token',
         ]
