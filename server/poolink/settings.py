@@ -117,8 +117,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'poolink.wsgi.application'
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://192.168.200.127:3000"
+    "http://localhost:3000"
 ]
 
 
