@@ -23,6 +23,7 @@ from django.contrib.auth import (
     authenticate
 )
 from .serializers import (
+    UserSerializer,
     UserCreateSerializer,
     UserLoginSerializer,
     UserListSerializer,
@@ -32,6 +33,12 @@ import uuid
 
 User = get_user_model()
 
+class UserAPIView(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
 class UserListAPIView(ListAPIView):
     permission_classes = [IsAdminUser]

@@ -4,6 +4,14 @@ from rest_framework_jwt.settings import api_settings
 
 User = get_user_model()
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'email',
+            'username',
+        ]
+
 class UserListSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='users-api:detail',
