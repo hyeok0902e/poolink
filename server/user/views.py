@@ -38,7 +38,7 @@ class UserAPIView(APIView):
 
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserListAPIView(ListAPIView):
     permission_classes = [IsAdminUser]
@@ -62,6 +62,13 @@ class UserCreateAPIView(CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserCreateSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLoginAPIView(APIView):
