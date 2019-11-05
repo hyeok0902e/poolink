@@ -59,7 +59,26 @@ class App extends Component {
       },
       body: JSON.stringify(data)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return {status: res.status, data};
+          })
+        } else {
+          console.log('Server error!');
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200 || res.status === 201) {
+          return res.data;
+        } else if (res.status === 403 || res.status === 401) {
+          throw res.data;
+        } else {
+          alert('Already existed email!');
+          throw res.data
+        }
+      })
       .then(json => {
         localStorage.setItem('token', json.token);
         this.setState({
