@@ -1,48 +1,84 @@
-from django.http import Http404
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.db.models import Q
+from rest_framework.filters import (
+        SearchFilter,
+        OrderingFilter,
+)
+from rest_framework.generics import (
+    CreateAPIView,
+    DestroyAPIView,
+    ListAPIView, 
+    UpdateAPIView,
+    RetrieveAPIView,
+    RetrieveUpdateAPIView
+)
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+    IsAuthenticatedOrReadOnly,
+)
+from .pagination import (
+    CategoryLimitOffsetPagination,
+    CategoryPageNumberPagination
+)
+
 from .models import Category
-from .serializers import CategorySerializer
 
-class CategoryList(APIView):
-    serializer_class = CategorySerializer
+from .serializers import (
+    CategoryListSerializer,
+    CategoryDetailSerializer,
+    CategoryCreateUpdateSerializer,
+)
 
-    def get(self, request, format=None):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = CategorySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.erros, status=status.HTTP_400_BAD_REQUEST)
+class CategoryCreateAPIView(CreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryCreateUpdateSerializer
+    permission_classes = [IsAdminUser]
 
-class CategoryDetail(APIView):
-    serializer_class = CategorySerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-    def get_object(self, category_id):
-        try:
-            return Category.objects.get(pk=category_id)
-        except Category.DoesNotExist:
-            raise Http404
 
-    def get(self, request, category_id, format=None):
-        category = self.get_object(category_id)
-        serializer = CategorySerializer(category)
-        return Response(serializer.data)
+class CategoryDetailAPIView(RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryDetailSerializer
+    lookup_field = 'slug'
+    
+    permission_classes = [IsAdminUser]
 
-    def put(self, request, category_id, format=None):
-        category = self.get_object(category_id)
-        serializer = CategorySerializer(category, data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, category_id, format=None):
-        category = self.get_object(category_id)
-        category.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class CategoryUpdateAPIView(RetrieveUpdateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryCreateUpdateSerializer
+    lookup_field = 'slug'
+
+    permission_classes = [IsAdminUser]
+    
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class CategoryDeleteAPIView(DestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategoryDetailSerializer
+    lookup_field = 'slug'
+    
+    permission_classes = [IsAdminUser]
+
+
+class CategoryListAPIView(ListAPIView):
+    serializer_class = CategoryListSerializer
+    filter_backends= [SearchFilter, OrderingFilter]
+    permission_classes = [AllowAny]
+    search_fields = ['title', ]
+    pagination_class = CategoryPageNumberPagination
+
+    def get_queryset(self, *args, **kwargs):
+        queryset_list = Category.objects.all()
+        query = self.request.GET.get("query")
+        if query:
+            queryset_list = queryset_list.filter(Q(title__icontains=query)).distinct()
+        return queryset_list
+
+
