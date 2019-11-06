@@ -43,17 +43,19 @@ class CategoryCreateAPIView(CreateAPIView):
 class CategoryDetailAPIView(RetrieveAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
-    lookup_field = 'slug'
+    permission_classes = [AllowAny]
     
-    permission_classes = [IsAdminUser]
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'category_slug'
 
 
 class CategoryUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryCreateUpdateSerializer
-    lookup_field = 'slug'
-
     permission_classes = [IsAdminUser]
+
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'category_slug'
     
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
@@ -62,9 +64,10 @@ class CategoryUpdateAPIView(RetrieveUpdateAPIView):
 class CategoryDeleteAPIView(DestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
-    lookup_field = 'slug'
-    
     permission_classes = [IsAdminUser]
+
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'category_slug'
 
 
 class CategoryListAPIView(ListAPIView):

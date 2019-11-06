@@ -19,8 +19,12 @@ class Category(models.Model):
         while k is not None:
             full_path.append(k.title)
             k = k.parent
-        return ' -> '.join(full_path[::-1])
+        return '-> '.join(full_path[::-1])
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
+        if self.parent is not None:
+            new_slug = "{} {}".format(self.parent, self.title)
+        else:
+            new_slug = self.title
+        self.slug = slugify(new_slug, allow_unicode=True)
         super(Category, self).save(*args, **kwargs)

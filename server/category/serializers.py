@@ -1,3 +1,4 @@
+from rest_framework.reverse import reverse
 from rest_framework.serializers import (
     HyperlinkedIdentityField,
     ModelSerializer,
@@ -5,20 +6,21 @@ from rest_framework.serializers import (
 )
 from .models import Category
 
-
 class CategoryListSerializer(ModelSerializer):    
     url = HyperlinkedIdentityField(
         view_name='categories-api:detail',
-        lookup_url_kwarg='slug'
+        lookup_url_kwarg='category_slug',
+        lookup_field='slug'
+
     )
     
     class Meta:
         model = Category
-        lookup_field = 'slug'
         fields = [
             'url',
             'title',
             'slug',
+            'parent'
         ]
 
 
@@ -29,6 +31,7 @@ class CategoryDetailSerializer(ModelSerializer):
             'id',
             'title',
             'slug',
+            'parent'
         ]
 
 class CategoryCreateUpdateSerializer(ModelSerializer):
@@ -36,6 +39,6 @@ class CategoryCreateUpdateSerializer(ModelSerializer):
         model = Category
         fields = [
             'title',
-            'slug'
+            'parent'
         ]
 
