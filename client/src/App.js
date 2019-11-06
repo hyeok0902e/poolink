@@ -3,6 +3,7 @@ import Nav from './components/Nav';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Post from './components/Post';
+import Category from './components/Category';
 import './App.css';
 
 class App extends Component {
@@ -38,7 +39,24 @@ class App extends Component {
       },
       body: JSON.stringify(data)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return {status: res.status, data};
+          })
+        } else {
+          console.log('Server error!');
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200 || res.status === 201) {
+          return res.data;
+        } else {
+          alert('Not allowed!');
+          throw res.data
+        }
+      })
       .then(json => {
         localStorage.setItem('token', json.token);
         console.log('data : ', json);
@@ -73,6 +91,7 @@ class App extends Component {
         if (res.status === 200 || res.status === 201) {
           return res.data;
         } else if (res.status === 403 || res.status === 401) {
+          alert('Not allowed!')
           throw res.data;
         } else {
           alert('Already existed email!');
@@ -126,6 +145,7 @@ class App extends Component {
             ? `Hello, ${this.state.username}`
             : 'Please Log In'}
         </h3>
+        <Category />
         {this.state.logged_in
             ? <Post />
             : 'Check Post after Login'}
