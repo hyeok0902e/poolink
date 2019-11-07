@@ -6,7 +6,7 @@ const PostList = (props) => {
         <ul className="post_list">
             {props.list.map((post, index) => (
                 <li key={index}>
-                    <Link to="/" className="post_link">
+                    <Link to={`/posts/${post.id}`} className="post_link">
                         <div className="post_info">
                             <strong className="post_title">
                                 {post.title}

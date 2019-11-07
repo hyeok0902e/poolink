@@ -123,51 +123,13 @@
 //     let form;
 //     switch (this.state.displayed_form) {
 //       case 'login':
-//         form = <LoginForm handle_login={this.handle_login} />;
-//         break;
-//       case 'signup':
-//         form = <SignupForm handle_signup={this.handle_signup} />;
-//         break;
-//       default:
-//         form = null;
-//     }
-
-//     return (
-//       <div className="App">
-//         <Nav
-//           logged_in={this.state.logged_in}
-//           display_form={this.display_form}
-//           handle_logout={this.handle_logout}
-//         />
-//         {form}
-//         <h3>
-//           {this.state.logged_in
-//             ? `Hello, ${this.state.username}`
-//             : 'Please Log In'}
-//         </h3>
-//         <Category />
-//         {this.state.logged_in
-//             ? <Post />
-//             : 'Check Post after Login'}
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
-
-
-/*
---------------------------------------------------------------
-Test code
-*/
-
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import './App.css';
 
 import Main from "./container/Main";
+import PostDetail from "./container/PostDetail";
 
 class App extends Component {
   render() {
@@ -175,6 +137,7 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={Main} />
+          <Route path="/posts/:post_id" component={PostDetail} />
         </div>
       </Router>
     );

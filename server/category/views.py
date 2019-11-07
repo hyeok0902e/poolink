@@ -17,10 +17,6 @@ from rest_framework.permissions import (
     IsAdminUser,
     IsAuthenticatedOrReadOnly,
 )
-from .pagination import (
-    CategoryLimitOffsetPagination,
-    CategoryPageNumberPagination
-)
 
 from .models import Category
 
@@ -75,7 +71,6 @@ class CategoryListAPIView(ListAPIView):
     filter_backends= [SearchFilter, OrderingFilter]
     permission_classes = [AllowAny]
     search_fields = ['title', ]
-    pagination_class = CategoryPageNumberPagination
 
     def get_queryset(self, *args, **kwargs):
         queryset_list = Category.objects.all()

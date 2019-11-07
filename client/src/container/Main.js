@@ -15,10 +15,10 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        this._getList();
+        this._getPostList();
     }
 
-    async _getList() {
+    async _getPostList() {
         try {
             const res = await fetch('http://127.0.0.1:8000/api/posts/');
             const posts = await res.json();
