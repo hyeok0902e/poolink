@@ -5,9 +5,10 @@ import UserNav from './userNav';
 
 class UserMenu extends Component {
   render() {
-    if (this.props.isAuthenticated) {
+    //   TODO : test 끝나고 바꿀 것
+    if (!this.props.isAuthenticated) {
       return (
-        <UserNav
+        <UserNav 
           username={this.props.username}
         />
       );
