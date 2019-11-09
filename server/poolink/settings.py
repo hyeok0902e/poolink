@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # django third-party apps
     'rest_framework',
+    'rest_framework.authtoken',
     'tagging.apps.TaggingConfig',
     'corsheaders',
 

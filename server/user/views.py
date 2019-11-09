@@ -1,8 +1,11 @@
 from django.http import Http404
-from rest_framework import status
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_400_BAD_REQUEST
+)
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -17,82 +20,76 @@ from rest_framework.permissions import (
     IsAuthenticated,
 )
 from .permissions import IsOwnerOrReadOnly
-from rest_framework_jwt.settings import api_settings
-from django.contrib.auth import (
-    get_user_model, 
-    authenticate
-)
+from django.contrib.auth import get_user_model
 from .serializers import (
-    UserSerializer,
     UserCreateSerializer,
     UserLoginSerializer,
     UserListSerializer,
     UserDetailSeiralizer,
+    UserUpdateSerializer,
+    UserTokenSerializer
 )
-import uuid
 
 User = get_user_model()
 
-class UserAPIView(APIView):
-    permission_classes = [IsOwnerOrReadOnly]
-
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 class UserListAPIView(ListAPIView):
-    permission_classes = [IsAdminUser]
+    queryset = User.objects.all()
     serializer_class = UserListSerializer
+    permission_classes = [IsAdminUser]
+    
+class UserDetailAPIView(RetrieveAPIView):
     queryset = User.objects.all()
-
-class UserDetailAPIView(DestroyModelMixin, UpdateModelMixin, RetrieveAPIView):
-    permission_classes = [IsOwnerOrReadOnly]
     serializer_class = UserDetailSeiralizer
-    queryset = User.objects.all()
+    permission_classes = [IsOwnerOrReadOnly]
     lookup_field = 'id'
     lookup_url_kwarg = 'user_id'
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-    
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
 class UserCreateAPIView(CreateAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = UserCreateSerializer
     queryset = User.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        serializer = UserCreateSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class UserLoginAPIView(APIView):
+    serializer_class = UserCreateSerializer
     permission_classes = [AllowAny]
+
+class UserUpdateAPIView(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    lookup_field = 'id'
+    lookup_url_kwarg = 'user_id'
+
+class UserDeleteAPIView(DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserDetailSeiralizer
+    permission_classes = [IsOwnerOrReadOnly]
+    lookup_field = 'id'
+    lookup_url_kwarg = 'user_id'
+    
+class UserLoginAPIView(APIView):
     serializer_class = UserLoginSerializer
+    permission_classes = [AllowAny]
     
     def post(self, request, *args, **kwargs):
-        data = request.data
-        serializer = UserLoginSerializer(data=data)
-
+        serializer = UserTokenSerializer(
+            data=request.data,
+            context={'request': request}
+        )
         if serializer.is_valid(raise_exception=True):
-            user = authenticate(email=serializer.validated_data['email'],
-                                password=serializer.validated_data['password'])
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key,
+                'user': user.username
+            }, status=HTTP_200_OK)
 
-            if user is not None:
-                username = user.username
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
-                jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-                jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+class UserLogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
-                payload = jwt_payload_handler(user)
-                token = jwt_encode_handler(payload)
-                # TODO : Fix here!! Important
-                return Response({'token': token, 'username': username}, status=status.HTTP_200_OK)
-            else:
-                return Response({'msg': 'Credentials are not valid!'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        try:
+            request.user.auth_token.delete()
+            msg = 'Logout Success!'
+            return Response(msg, status=HTTP_200_OK)
+        except:
+            msg = 'Logout Fail!'
+            return Response(msg, status=HTTP_400_BAD_REQUEST)
