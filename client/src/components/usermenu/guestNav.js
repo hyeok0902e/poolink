@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from '../button';
 
@@ -7,18 +8,18 @@ export default class GuestNav extends Component {
     return (
       <div className="guest_menu">
         <Button
-          className='btn-signUp'
+          className='btn-signIn'
           type='button'
         >
-          SignUp
-                </Button>
+          <Link to="/login/">Login</Link>
+        </Button>
         <br />
         <Button
           className='btn-register'
           type='button'
         >
-          Register
-                </Button>
+          <Link to="/register/">Register</Link>
+        </Button>
       </div>
     );
   }
