@@ -21,7 +21,7 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
-        isAuthenticated: false,
+        isAuthenticated: false
       };
     case LOGIN_SUCCESS:
       return {
@@ -31,7 +31,7 @@ const auth = (state = initialState, action) => {
         token: action.token,
         username: action.username,
         email: action.email
-      }
+      };
     case LOGIN_FAILURE:
       return {
         ...state,
@@ -41,6 +41,28 @@ const auth = (state = initialState, action) => {
         username: null,
         email: null
       };
+    case LOGOUT_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        isAuthenticated: true
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: false,
+        token: null,
+        username: null,
+        email: null
+      };
+    case LOGOUT_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: true
+      };
+
     default:
       return state;
   }

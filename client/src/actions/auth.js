@@ -8,7 +8,7 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE
 } from './types';
-import { URL, LOGIN } from './api';
+import { URL, LOGIN, LOGOUT, getHeader } from './api';
 
 export const login = (email, password) => {
   return (dispatch) => {
@@ -22,12 +22,7 @@ export const login = (email, password) => {
         dispatch(loginSuccess(response.data));
       })
       .catch(function (error) {
-        if (_.get(error, 'response.status') === 400) {
-          dispatch(loginFailure("Login fail"));
-        }
-        else {
           dispatch(loginFailure(error));
-        }
       });
   };
 }
@@ -49,6 +44,37 @@ export const loginSuccess = (data) => {
 export const loginFailure = (error) => {
   return {
     type: LOGIN_FAILURE,
+    error
+  };
+}
+
+export const logout = () => dispatch => {
+  dispatch(logoutRequest());
+
+  axios.post(URL + LOGOUT, null, getHeader())
+    .then(function (response) {
+      dispatch(logoutSuccess(response));
+    })
+    .catch(function (error) {
+      dispatch(logoutFailure(error));
+    });
+};
+
+export const logoutRequest = () => {
+  return {
+    type: LOGOUT_REQUEST
+  };
+}
+
+export const logoutSuccess = () => {
+  return {
+    type: LOGOUT_SUCCESS
+  };
+}
+
+export const logoutFailure = (error) => {
+  return {
+    type: LOGOUT_FAILURE,
     error
   };
 }

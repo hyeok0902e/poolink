@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.css';
 
-import Header from './components/header';
+import HeaderContainer from './containers/header';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header />
+        <HeaderContainer />
       </div>
     );
   }
