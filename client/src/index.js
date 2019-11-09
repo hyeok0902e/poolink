@@ -4,11 +4,12 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import App from './App';
-import Register from './components/register';
 import store from './store';
 import * as serviceWorker from './serviceWorker';
 
 import HeaderContainer from './containers/header';
+import Register from './components/register';
+import Login from './containers/user/login';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,7 +18,7 @@ ReactDOM.render(
       <div className="container">
         <HeaderContainer />
         <Switch>
-          <Route path="/login/" component={App} />
+          <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/" component={App} />
         </Switch>

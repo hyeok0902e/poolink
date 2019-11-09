@@ -16,17 +16,16 @@ export default class Button extends Component {
         onClick={this.props.onClick}
         type={this.props.onClick ? 'button' : 'submit'}
       >
-        {this.props.children}
-        {this.props.loading ? <p>Loading...</p> : null}
+        {this.props.loading ? <p>Loading...</p> : this.props.children}
       </button>
-    );
+    );  
   }
 }
 
 Button.defaultProps = {
-  className: 'btn',
-  type: 'submit',
+  className: "btn",
+  type: "submit",
   loading: false,
-  disable: false,
+  disabled: false,
   onClick: null
 };

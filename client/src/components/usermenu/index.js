@@ -9,6 +9,8 @@ class UserMenu extends Component {
       return (
         <UserNav 
           username={this.props.username}
+          logout={this.props.logout}
+          isFetching={this.props.isFetching}
         />
       );
     } else {

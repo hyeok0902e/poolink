@@ -4,17 +4,15 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILURE
+  LOGOUT,
 } from './types';
-import { URL, LOGIN, LOGOUT, getHeader } from './api';
+import { API_URL, LOGIN_URL, LOGOUT_URL, getHeader } from './api';
 
 export const login = (email, password) => {
   return (dispatch) => {
-    dispatch(loginRequest);
+    dispatch(loginRequest());
 
-    axios.post(URL + LOGIN, {
+    axios.post(API_URL + LOGIN_URL, {
       email,
       password
     })
@@ -22,7 +20,7 @@ export const login = (email, password) => {
         dispatch(loginSuccess(response.data));
       })
       .catch(function (error) {
-          dispatch(loginFailure(error));
+        dispatch(loginFailure("잘못된 이메일 혹은 비밀번호입니다."));
       });
   };
 }
@@ -37,7 +35,7 @@ export const loginSuccess = (data) => {
   return {
     type: LOGIN_SUCCESS,
     token: data.token,
-    username: data.username
+    username: data.user
   };
 }
 
@@ -48,33 +46,16 @@ export const loginFailure = (error) => {
   };
 }
 
-export const logout = () => dispatch => {
-  dispatch(logoutRequest());
-
-  axios.post(URL + LOGOUT, null, getHeader())
-    .then(function (response) {
-      dispatch(logoutSuccess(response));
-    })
-    .catch(function (error) {
-      dispatch(logoutFailure(error));
-    });
-};
-
-export const logoutRequest = () => {
-  return {
-    type: LOGOUT_REQUEST
-  };
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(logoutAction());
+    
+    axios.post(API_URL + LOGOUT_URL, null, getHeader());
+  }
 }
 
-export const logoutSuccess = () => {
+export const logoutAction = () => {
   return {
-    type: LOGOUT_SUCCESS
-  };
-}
-
-export const logoutFailure = (error) => {
-  return {
-    type: LOGOUT_FAILURE,
-    error
+    type: LOGOUT
   };
 }

@@ -19,7 +19,7 @@ class Header extends Component {
           isAuthenticated={this.props.isAuthenticated}
           username={this.props.username}
           email={this.props.email}
-          logout={() => this.handleLogout}
+          logout={() => this.handleLogout()}
           isFetching={this.props.isFetching}
         />
       </header>

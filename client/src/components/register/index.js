@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Button from '../button';
 
-class Register extends Component {
+class RegisterForm extends Component {
 
   constructor(props) {
     super(props);
@@ -80,4 +80,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default RegisterForm;
