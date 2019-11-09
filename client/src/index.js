@@ -4,6 +4,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import App from './App';
+import Register from './components/register';
 import store from './store';
 import * as serviceWorker from './serviceWorker';
 
@@ -17,7 +18,7 @@ ReactDOM.render(
         <HeaderContainer />
         <Switch>
           <Route path="/login/" component={App} />
-          <Route path="/register" component={App} />
+          <Route path="/register" component={Register} />
           <Route path="/" component={App} />
         </Switch>
       </div>
