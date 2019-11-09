@@ -128,18 +128,12 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import './App.css';
 
-import Main from "./container/Main";
-import PostDetail from "./container/PostDetail";
-
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div>
-          <Route exact path="/" component={Main} />
-          <Route path="/posts/:post_id" component={PostDetail} />
-        </div>
-      </Router>
+      <div>
+        POOLINK
+      </div>
     );
   }
 }
