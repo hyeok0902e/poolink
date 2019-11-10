@@ -18,6 +18,12 @@ class PostDetail extends Component {
       })
   }
 
+  handleDelete = (e) => {
+    const post_id = this.props.match.params.post_id;
+    axios.delete(`http://127.0.0.1:8000/api/posts/${post_id}/delete/`);
+    this.props.history.push('/');
+  }
+
   render() {
     return (
       <div>
@@ -30,6 +36,9 @@ class PostDetail extends Component {
           post_id={this.props.match.params.post_id}
           btnText="Update"
         />
+        <form onSubmit={this.handleDelete}>
+          <button>Delete</button>
+        </form>
       </div>
     )
   }
