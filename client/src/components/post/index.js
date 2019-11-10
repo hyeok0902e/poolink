@@ -6,7 +6,7 @@ const Post = (props) => {
       <p>Post List</p>
       {props.data.map((post, index) => (
         <div key={index}>
-          <p>제목 : {post.title}</p>
+          <a href={`posts/${post.id}`}><p>제목 : {post.title}</p></a>
           <p>내용 : {post.content}</p>
         </div>
       ))}

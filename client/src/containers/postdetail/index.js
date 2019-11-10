@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import PostForm from '../../components/postform';
+
 class PostDetail extends Component {
   state = {
     post: {}
@@ -19,8 +21,15 @@ class PostDetail extends Component {
   render() {
     return (
       <div>
-        <p>title : {this.state.post.title}</p>
-        <p>content : {this.state.post.content}</p>
+        <div>
+          <p>title : {this.state.post.title}</p>
+          <p>content : {this.state.post.content}</p>
+        </div>
+        <PostForm 
+          requestType="PUT"
+          post_id={this.props.match.params.post_id}
+          btnText="Update"
+        />
       </div>
     )
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import Post from '../../components/post';
+import PostForm from '../../components/postform';
 
 class PostList extends Component {
   state = {
@@ -20,7 +21,15 @@ class PostList extends Component {
 
   render() {
     return (
-      <Post data={this.state.posts}/>
+      <div>
+        <Post data={this.state.posts}/>
+        <h2>글쓰기</h2>
+        <PostForm 
+          requestType="POST"
+          post_id={null}
+          btnText="Create"
+        />
+      </div>
     )
   }
 }
