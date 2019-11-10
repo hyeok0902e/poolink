@@ -29,8 +29,7 @@ from .serializers import (
     UserLoginSerializer,
     UserListSerializer,
     UserDetailSeiralizer,
-    UserUpdateSerializer,
-    UserTokenSerializer
+    UserUpdateSerializer
 )
 
 User = get_user_model()
