@@ -4,7 +4,6 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST
 )
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.generics import (
     CreateAPIView,
@@ -20,7 +19,11 @@ from rest_framework.permissions import (
     IsAuthenticated,
 )
 from .permissions import IsOwnerOrReadOnly
-from django.contrib.auth import get_user_model
+from rest_framework_jwt.settings import api_settings
+from django.contrib.auth import (
+    get_user_model,
+    authenticate
+)
 from .serializers import (
     UserCreateSerializer,
     UserLoginSerializer,
@@ -68,28 +71,23 @@ class UserLoginAPIView(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request, *args, **kwargs):
-        serializer = UserTokenSerializer(
-            data=request.data,
-            context={'request': request}
-        )
+        data = request.data
+        serializer = UserLoginSerializer(data=data)
+
         if serializer.is_valid(raise_exception=True):
-            user = serializer.validated_data['user']
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'token': token.key,
-                'user': user.username
-            }, status=HTTP_200_OK)
+            user = authenticate(email=serializer.validated_data['email'],
+                                password=serializer.validated_data['password'])
 
+            if user is not None:
+                username = user.username
+
+                jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+                jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+                payload = jwt_payload_handler(user)
+                token = jwt_encode_handler(payload)
+                # TODO : Fix here!! Important
+                return Response({'token': token, 'username': username}, status=HTTP_200_OK)
+            else:
+                return Response({'msg': 'Credentials are not valid!'}, status=HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-class UserLogoutAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        try:
-            request.user.auth_token.delete()
-            msg = 'Logout Success!'
-            return Response(msg, status=HTTP_200_OK)
-        except:
-            msg = 'Logout Fail!'
-            return Response(msg, status=HTTP_400_BAD_REQUEST)

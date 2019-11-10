@@ -7,7 +7,6 @@ app_name = 'users-api'
 urlpatterns = [
     path('', views.UserListAPIView.as_view(), name='list'),
     path('login/', views.UserLoginAPIView.as_view(), name='login'),
-    path('logout/', views.UserLogoutAPIView.as_view(), name='logout'),
     path('register/', views.UserCreateAPIView.as_view(), name="register"),
     path('<int:user_id>/', views.UserDetailAPIView.as_view(), name='detail'),
     path('<int:user_id>/edit', views.UserUpdateAPIView.as_view(), name='edit'),
