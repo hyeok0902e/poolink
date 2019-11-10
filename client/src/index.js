@@ -1,21 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import './index.css';
-import App from './App';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+
 import * as serviceWorker from './serviceWorker';
-import PostList from './containers/postlist';
-import PostDetail from './containers/postdetail';
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={App} />
-      <Route exact path="/posts/" component={PostList} />
-      <Route exact path="/posts/:post_id/" component={PostDetail} />
-    </Switch>
-  </BrowserRouter>,
-  document.getElementById('root'));
+import reducer from './reducers/auth';
+import App from './App';
+
+const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(reducer, composeEnhances(
+  applyMiddleware(thunk)
+));
+
+const app = (
+  <Provider store={store}>
+    <App />
+  </Provider>
+)
+
+ReactDOM.render(app, document.getElementById('root'));
 
 serviceWorker.unregister();
