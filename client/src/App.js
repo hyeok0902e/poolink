@@ -3,8 +3,8 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from './actions/auth';
-import Main from './containers/layout/main';
 import Header from './containers/layout/header';
+import Footer from './containers/layout/footer';
 import HomeContainer from './containers/home';
 import PostList from './containers/postlist';
 import CategoryList from './containers/categorylist';
@@ -19,14 +19,13 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Header />
-        <Main />
         <Switch>
           <Route exact path="/" component={HomeContainer} />
-          <Route path="/posts" component={PostList} />
-          <Route path="/:post_id" component={PostDetail} />
-          <Route path="/categories" component={CategoryList} />
-          
+          <Route exact path="/posts/:postId" component={PostDetail} />
+          <Route exact path="/posts" component={PostList} />
+          <Route exact path="/categories" component={CategoryList} />
         </Switch>
+        <Footer />
       </BrowserRouter>
     );
   }
