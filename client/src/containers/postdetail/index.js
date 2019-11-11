@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -24,6 +25,11 @@ class PostDetail extends Component {
 
   handleDelete = (e) => {
     const postId = this.props.match.params.postId;
+
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Jwt ${this.props.token}`
+    };
     axios.delete(`http://127.0.0.1:8000/api/posts/${postId}/delete/`);
     this.props.history.push('/');
   }
@@ -36,6 +42,8 @@ class PostDetail extends Component {
           <p>content : {this.state.post.content}</p>
         </div>
         <PostForm 
+          {...this.props}
+          token={this.props.token}
           requestType="PUT"
           postId={this.props.match.params.postId}
           btnText="Update"
@@ -49,4 +57,10 @@ class PostDetail extends Component {
   }
 }
 
-export default PostDetail;
+const mapStateToProps = state => {
+  return {
+    token: state.token
+  };
+};
+
+export default connect(mapStateToProps)(PostDetail);

@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 class PostForm extends Component {
-  handleSubmit = (e, requestType, post_id) => {
+  handleSubmit = (e, requestType, postId) => {
     e.preventDefault();
     
     const title = e.target.elements.title.value;
     const content = e.target.elements.content.value;
+    
+    console.log('token - postForm : ', this.props.token)
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    axios.defaults.xsrfCookieName = "csrftoken";
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Jwt ${this.props.token}`,
+    };
 
     switch (requestType) {
       case 'POST':
@@ -17,7 +26,7 @@ class PostForm extends Component {
           .then(res => console.log(res))
           .catch(error => console.error(error));
       case 'PUT':
-        return axios.put(`http://127.0.0.1:8000/api/posts/${post_id}/edit/`, {
+        return axios.put(`http://127.0.0.1:8000/api/posts/${postId}/edit/`, {
           title: title,
           content: content
         })
@@ -31,7 +40,7 @@ class PostForm extends Component {
       <form onSubmit={(event) => this.handleSubmit(
           event,
           this.props.requestType,
-          this.props.post_id )}>
+          this.props.postId )}>
         <label>제목:
           <input type='text' name='title' />
         </label>
@@ -46,4 +55,10 @@ class PostForm extends Component {
   }
 }
 
-export default PostForm;
+const mapStateToProps = state => {
+  return {
+    token: state.token
+  };
+};
+
+export default connect(mapStateToProps)(PostForm);
