@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import PostForm from '../../components/postform';
@@ -9,18 +10,21 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
-    const post_id = this.props.match.params.post_id;
-    axios.get(`http://127.0.0.1:8000/api/posts/${post_id}`)
+    const postId = this.props.match.params.postId;
+    axios.get(`http://127.0.0.1:8000/api/posts/${postId}/`)
       .then(res => {
         this.setState({
           post: res.data
         });
       })
+      .catch(error => {
+        console.error(error);
+      })
   }
 
   handleDelete = (e) => {
-    const post_id = this.props.match.params.post_id;
-    axios.delete(`http://127.0.0.1:8000/api/posts/${post_id}/delete/`);
+    const postId = this.props.match.params.postId;
+    axios.delete(`http://127.0.0.1:8000/api/posts/${postId}/delete/`);
     this.props.history.push('/');
   }
 
@@ -33,12 +37,13 @@ class PostDetail extends Component {
         </div>
         <PostForm 
           requestType="PUT"
-          post_id={this.props.match.params.post_id}
+          postId={this.props.match.params.postId}
           btnText="Update"
         />
         <form onSubmit={this.handleDelete}>
           <button>Delete</button>
         </form>
+        <Link to="/posts/">목록으로</Link>
       </div>
     )
   }

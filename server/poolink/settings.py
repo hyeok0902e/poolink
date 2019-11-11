@@ -121,7 +121,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000"
 ]
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
