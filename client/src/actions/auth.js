@@ -24,7 +24,6 @@ export const authFail = error => {
 
 export const logout = () => {
   localStorage.removeItem('token');
-  localStorage.removeItem('expirationDate');
   return {
     type: types.AUTH_LOGOUT
   };
@@ -46,12 +45,10 @@ export const authLogin = (email, password) => {
       password: password
     })
       .then(res => {
-        const token = res.data.key;
-        const expirationDate = new Date(new Date.getTime() + 3600 * 1000);
+        console.log('auth login data : ', res.data)
+        const token = res.data.token;
         localStorage.setItem('token', token);
-        localStorage.setItem('expirationDate', expirationDate);
         dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout(3600));
       })
       .catch(error => {
         dispatch(authFail(error))
@@ -68,12 +65,10 @@ export const authSignup = (email, username, password) => {
       password: password
     })
       .then(res => {
-        const token = res.data.key;
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+        console.log('auth signup data : ', res.data)
+        const token = res.data.token;
         localStorage.setItem('token', token);
-        localStorage.setItem('expirationDate', expirationDate);
         dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
         dispatch(authFail(err))
@@ -84,16 +79,9 @@ export const authSignup = (email, username, password) => {
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('token');
-    if (token === undefined) {
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem('expirationDate'));
-      if (expirationDate <= new Date()) {
-        dispatch(logout());
-      } else {
-        dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
-      }
-    }
+    dispatch(authSuccess(token));
+    console.log('authCheckState : ', token)
+    console.log('localStorage.getItem("token")', localStorage.getItem('token'))
   }
 }
+

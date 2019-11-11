@@ -1,6 +1,5 @@
 import * as types from '../actions/types';
 import { updateObject } from '../utils/config';
-import { authSuccess } from '../actions/auth';
 
 const initialState = {
   token: null,
@@ -16,6 +15,15 @@ const authStart = (state, action) => {
   });
 }
 
+const authSuccess = (state, action) => {
+  console.log("AUTH SUCCESS")
+  return updateObject(state, {
+      token: action.token,
+      error: null,
+      loading: false
+  });
+}
+
 const authFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
@@ -24,6 +32,7 @@ const authFail = (state, action) => {
 }
 
 const authLogout = (state, action) => {
+  console.log("AUTH LOGOUT")
   return updateObject(state, {
     token: null
   });
