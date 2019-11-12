@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import * as actions from './actions/auth';
 import Header from './containers/layout/header';
 import Footer from './containers/layout/footer';

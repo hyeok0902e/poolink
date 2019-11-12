@@ -25,7 +25,6 @@ class PostList extends Component {
     return (
       <div>
         <Post data={this.state.posts}/>
-        <h2>글쓰기</h2>
         <PostForm 
           requestType="POST"
           post_id={null}

@@ -1,15 +1,13 @@
 import React from 'react';
+import { NavDropdown } from 'react-bootstrap';
 
 const Category = (props) => {
   return (
-    <div className="category-menu">
-      <p>Category List</p>
-      {props.data.map((category, index) => (
-        <div key={index}>
-          <p>{category.title}</p>
-        </div>
+    <NavDropdown title="게시판" id="collasible-nav-dropdown">
+      { props.data.map((category, index) => (
+        <NavDropdown.Item key={index} href="/">{category.title}</NavDropdown.Item>
       ))}
-    </div>
+    </NavDropdown>
   );
 }
 

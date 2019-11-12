@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/auth';
+import { NavLink } from 'react-router-dom';
+import HomeContainer from '../home';
 
-import { Link } from 'react-router-dom';
+import * as actions from '../../actions/auth';
+import './styles.scss';
 
 class Signup extends Component {
   handleSubmit = (e) => {
@@ -18,19 +20,18 @@ class Signup extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="login-form">
-        <input type="text" name="email" />
-        <br/>
-        <input type="text" name="username" />
-        <br/>
-        <input type="password" name="password" />
-        <br/>
-        <input type="submit" value="submit" />
-        <br/>
-        <Link to='/login'>
-          로그인
-        </Link>
+      <HomeContainer>
+      <form onSubmit={this.handleSubmit}>
+        <h1>회원가입</h1>
+        <input placeholder="email" type="text" name="email" required="" />
+        <input placeholder="username" type="text" name="username" required="" />
+        <input placeholder="password" type="password" name="password" required="" />
+        <button>회원가입</button>
       </form>
+      <NavLink to="/login" className="login-link">
+        <button>로그인</button>
+      </NavLink>
+    </HomeContainer>
     )
   }
 }
