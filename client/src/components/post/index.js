@@ -1,19 +1,29 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 
 import HomeContainer from '../../containers/home';
 
 const Post = (props) => {
   return (
     <HomeContainer>
-      <div className="post-list">
-        <p>Post List</p>
-        {props.data.map((post, index) => (
-          <div key={index}>
-            <a href={`${post.id}`}><p>제목 : {post.title}</p></a>
-            <p>내용 : {post.content}</p>
-          </div>
-        ))}
-      </div>
+      <Table responsive className="post-list">
+        <thead>
+          <tr>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.data.map((post, index) => (
+            <tr key={index}>
+              <td><a href={`posts/${post.id}`}>{post.title}</a></td>
+              <td>{post.user.username}</td>
+              <td>{post.created_at}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </HomeContainer>
   );
 }
