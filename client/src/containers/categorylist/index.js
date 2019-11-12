@@ -20,7 +20,7 @@ class CategoryList extends Component {
 
   render() {
     return (
-      <Category data={this.state.categories}/>
+      <Category data={this.state.categories} />
     )
   }
 }

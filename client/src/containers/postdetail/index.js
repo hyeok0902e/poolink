@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import PostForm from '../../components/postform';
+import HomeContainer from '../../containers/home';
 
 class PostDetail extends Component {
   state = {
@@ -36,7 +37,8 @@ class PostDetail extends Component {
 
   render() {
     return (
-      <div>
+      <HomeContainer>
+        <Link to="/posts/">목록으로</Link>
         <div>
           <p>title : {this.state.post.title}</p>
           <p>content : {this.state.post.content}</p>
@@ -51,8 +53,8 @@ class PostDetail extends Component {
         <form onSubmit={this.handleDelete}>
           <button>Delete</button>
         </form>
-        <Link to="/posts/">목록으로</Link>
-      </div>
+        
+      </HomeContainer>
     )
   }
 }
