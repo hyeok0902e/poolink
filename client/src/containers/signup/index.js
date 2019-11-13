@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import HomeContainer from '../home';
 
 import * as actions from '../../actions/auth';
-import './styles.scss';
 
 class Signup extends Component {
   handleSubmit = (e) => {

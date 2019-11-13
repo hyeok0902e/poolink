@@ -11,26 +11,22 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from decouple import config
 import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yz*h8o&xy@&a9cu+y&=rfjy!e&^+*6s9rt2n_60p1^$pt4%7ey'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Environment variables
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
+# UserAuth model
+AUTH_USER_MODEL = 'user.User'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,8 +49,6 @@ INSTALLED_APPS = [
     'comment.apps.CommentConfig'
 ]
 
-# UserAuth model
-AUTH_USER_MODEL = 'user.User'
 
 # Django REST framework
 REST_FRAMEWORK = {
@@ -122,16 +116,14 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 # Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'poolink',
-        'USER': 'root',
-        'PASSWORD': 'Rakutenno01!',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT')
     }
 }
 
