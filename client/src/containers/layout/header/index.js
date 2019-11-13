@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 
 import * as actions from '../../../actions/auth';
-import './styles.scss';
+import './styles.css';
 
 import CategoryList from '../../categorylist';
 

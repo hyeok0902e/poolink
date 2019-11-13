@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import './styles.scss';
 
 import * as actions from '../../actions/auth';
 import HomeContainer from '../home';

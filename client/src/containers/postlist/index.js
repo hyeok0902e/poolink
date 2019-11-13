@@ -5,7 +5,6 @@ import axios from 'axios';
 import Post from '../../components/post';
 import PostForm from '../../components/postform';
 
-import './styles.scss';
 
 class PostList extends Component {
   state = {

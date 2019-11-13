@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 
-import './styles.scss';
-
 
 class HomeContainer extends Component {
   render() {
