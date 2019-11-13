@@ -8,6 +8,7 @@ djangorestframework-jwt==1.11.0
 mysqlclient==1.4.4
 PyJWT==1.7.1
 PyMySQL==0.9.3
+python-decouple==3.1
 pytz==2019.2
 six==1.13.0
 sqlparse==0.3.0
