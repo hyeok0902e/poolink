@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/category';
 
 import Category from '../../components/category';
 
@@ -9,13 +10,12 @@ class CategoryList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://127.0.0.1:8000/api/categories/')
+    this.props.getCategory()
       .then(res => {
         this.setState({
-          categories: res.data
+          categories: res
         });
-        console.log(res.data);
-      })
+      });
   }
 
   render() {
@@ -25,4 +25,16 @@ class CategoryList extends Component {
   }
 }
 
-export default CategoryList;
+
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    error: state.error,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getCategory: () => dispatch(actions.getCategory())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
