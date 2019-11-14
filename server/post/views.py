@@ -18,10 +18,6 @@ from rest_framework.filters import (
     SearchFilter,
     OrderingFilter,
 )
-from .pagination import (
-    PostLimitOffsetPagination,
-    PostPageNumberPagination,
-)
 from .serializers import (
     PostListSerializer,
     PostDetailSerializer,
@@ -36,8 +32,6 @@ class PostListAPIView(ListAPIView):
     permission_classes = [AllowAny]
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'content', 'user__username']
-
-    pagination_class = PostPageNumberPagination
 
     def get_queryset(self, *args, **kwargs):
         queryset_list = Post.objects.all()
