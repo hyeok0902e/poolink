@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as actions from './actions/auth';
 import Header from './containers/layout/header';
 import Footer from './containers/layout/footer';
-import HomeContainer from './containers/home';
 import Login from './containers/login';
 import Signup from './containers/signup';
 import PostList from './containers/postlist';
@@ -24,11 +23,10 @@ class App extends Component {
       <BrowserRouter>
         <Header {...this.props}/>
         <Switch>
-          <Route exact path="/" component={HomeContainer} />
+          <Route exact path="/" component={PostList}/>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/posts/:postId" component={PostDetail} />
-          <Route exact path="/posts" component={PostList}/>
           <Route exact path="/categories" component={CategoryList} />
         </Switch>
         <Footer />
