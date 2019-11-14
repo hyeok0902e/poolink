@@ -22,7 +22,7 @@ class PostList extends Component {
     this.props.getPost()
       .then(res => {
         this.setState({
-          posts: res.results
+          posts: res
         })
       })
   }

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from user.serializers import UserDetailSeiralizer
+from category.serializers import CategoryDetailSerializer
 from comment.serializers import (
     CommentListSerializer,
     CommentDetailSerializer,
@@ -29,6 +30,7 @@ class PostListSerializer(serializers.ModelSerializer):
     
 class PostDetailSerializer(serializers.ModelSerializer):
     user = UserDetailSeiralizer(read_only=True)
+    category = CategoryDetailSerializer(read_only=True)
     comments = serializers.SerializerMethodField()
     class Meta:
         model = Post

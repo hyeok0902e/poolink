@@ -11,6 +11,7 @@ import HomeContainer from '../../containers/home';
 class PostDetail extends Component {
   state = {
     post: {},
+    category: {},
     btnState: false
   }
 
@@ -19,9 +20,12 @@ class PostDetail extends Component {
     axios.get('http://127.0.0.1:8000/api/posts/' + postId + '/')
       .then(res => {
         this.setState({
-          post: res.data
+          post: res.data,
+          category: res.data.category
         })
       })
+    
+    
   }
 
 
@@ -62,6 +66,7 @@ class PostDetail extends Component {
             />
         }
         <div>
+          <p>category : {this.state.category.title}</p>
           <p>title : {this.state.post.title}</p>
           <p>content : {this.state.post.content}</p>
         </div>
