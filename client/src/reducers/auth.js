@@ -24,7 +24,8 @@ const loginSuccess = (state, action) => {
   });
 }
 
-const loginFail = (state, action) => {
+const loginFailure = (state, action) => {
+  console.log("LOGIN_FAILURE");
   return updateObject(state, {
     error: action.error,
     loading: false
@@ -44,8 +45,8 @@ const reducer = (state=initialState, action) => {
       return loginRequest(state, action);
     case types.LOGIN_SUCCESS:
       return loginSuccess(state, action);
-    case types.LOGIN_FAIL:
-      return loginFail(state, action);
+    case types.LOGIN_FAILURE:
+      return loginFailure(state, action);
     case types.LOGOUT:
       return logout(state, action);
     default:

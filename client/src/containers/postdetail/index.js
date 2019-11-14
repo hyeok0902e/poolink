@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
+import * as actions from '../../actions/post';
+
 import PostForm from '../../components/postform';
 import HomeContainer from '../../containers/home';
 
@@ -14,26 +16,18 @@ class PostDetail extends Component {
 
   componentDidMount() {
     const postId = this.props.match.params.postId;
-    axios.get(`http://127.0.0.1:8000/api/posts/${postId}/`)
+    axios.get('http://127.0.0.1:8000/api/posts/' + postId + '/')
       .then(res => {
         this.setState({
           post: res.data
-        });
-      })
-      .catch(error => {
-        console.error(error);
+        })
       })
   }
 
+
   handleDelete = (e) => {
     const postId = this.props.match.params.postId;
-
-    axios.defaults.headers = {
-      "Content-Type": "application/json",
-      Authorization: `Jwt ${this.props.token}`
-    };
-    axios.delete(`http://127.0.0.1:8000/api/posts/${postId}/delete/`);
-    this.props.history.push('/');
+    this.props.deletePost(postId);
   }
 
   handleBtn = (e) => {
@@ -46,8 +40,6 @@ class PostDetail extends Component {
         btnState: true
       })
     }
-
-    console.log('btn state : ', this.state.btnState)
   }
 
   render() {
@@ -83,8 +75,17 @@ class PostDetail extends Component {
 
 const mapStateToProps = state => {
   return {
-    token: state.token
+    loading: state.loading,
+    error: state.error,
+    token: state.token,
+    post: state.post,
   };
 };
 
-export default connect(mapStateToProps)(PostDetail);
+const mapDispatchToProps = dispatch => ({
+  deletePost: postId => {
+    dispatch(actions.deletePost(postId))
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
 
+import * as actions from '../../actions/post';
 import Post from '../../components/post';
 import PostForm from '../../components/postform';
 
@@ -14,11 +15,15 @@ class PostList extends Component {
 
 
   componentDidMount() {
-    axios.get('http://127.0.0.1:8000/api/posts/')
+    this._getPost();
+  }
+
+  _getPost() {
+    this.props.getPost()
       .then(res => {
         this.setState({
-          posts: res.data.results
-        });
+          posts: res.results
+        })
       })
   }
 
@@ -32,7 +37,6 @@ class PostList extends Component {
         btnState: true
       })
     }
-
     console.log('btn state : ', this.state.btnState)
   }
 
@@ -61,4 +65,17 @@ class PostList extends Component {
   }
 }
 
-export default PostList;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading,
+    error: state.error,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPost: () => dispatch(actions.getPost())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList)

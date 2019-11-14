@@ -15,9 +15,9 @@ export const loginSuccess = token => {
   }
 }
 
-export const loginFail = error => {
+export const loginFailure = error => {
   return {
-    type: types.LOGIN_FAIL,
+    type: types.LOGIN_FAILURE,
     error: error
   }
 }
@@ -51,7 +51,7 @@ export const authLogin = (email, password) => {
         dispatch(loginSuccess(token));
       })
       .catch(error => {
-        dispatch(loginFail(error))
+        dispatch(loginFailure(error))
       })
   }
 }
@@ -71,7 +71,7 @@ export const authSignup = (email, username, password) => {
         dispatch(loginSuccess(token));
       })
       .catch(err => {
-        dispatch(loginFail(err))
+        dispatch(loginFailure(err))
       })
   }
 }
