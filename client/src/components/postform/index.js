@@ -2,38 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import * as actions from '../../actions/post';
+
 class PostForm extends Component {
   handleSubmit = (e, requestType, postId) => {
     e.preventDefault();
-    
-    const title = e.target.elements.title.value;
-    const content = e.target.elements.content.value;
-    
-    console.log('token - postForm : ', this.props.token)
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    axios.defaults.headers = {
-      "Content-Type": "application/json",
-      Authorization: `Jwt ${this.props.token}`,
-    };
-
+    const newPost = {
+      title: e.target.elements.title.value,
+      content: e.target.elements.content.value
+    }
     switch (requestType) {
       case 'POST':
-        return axios.post('http://127.0.0.1:8000/api/posts/create/', {
-          title: title,
-          content: content
-        })
-          .then(res => console.log(res))
-          .catch(error => console.error(error));
+        return this.props.createPost(newPost);
       case 'PUT':
-        return axios.put(`http://127.0.0.1:8000/api/posts/${postId}/edit/`, {
-          title: title,
-          content: content
-        })
-          .then(res => console.log(res))
-          .catch(error => console.error(error));
+        return this.props.updatePost(postId, newPost)
       default:
-        
     }
   }
 
@@ -59,8 +42,19 @@ class PostForm extends Component {
 
 const mapStateToProps = state => {
   return {
+    loading: state.loading,
+    error: state.error,
     token: state.token
   };
 };
 
-export default connect(mapStateToProps)(PostForm);
+const mapDispatchToProps = dispatch => ({
+  createPost: newPost => {
+    dispatch(actions.createPost(newPost))
+  },
+  updatePost: (postId, newPost) => {
+    dispatch(actions.updatePost(postId, newPost))
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);

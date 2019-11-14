@@ -2,22 +2,22 @@ import axios from 'axios';
 
 import * as types from './types';
 
-export const authStart = () => {
+export const loginRequest = () => {
   return {
-    type: types.AUTH_START
+    type: types.LOGIN_REQUEST
   }
 }
 
-export const authSuccess = token => {
+export const loginSuccess = token => {
   return {
-    type: types.AUTH_SUCCESS,
+    type: types.LOGIN_SUCCESS,
     token: token
   }
 }
 
-export const authFail = error => {
+export const loginFailure = error => {
   return {
-    type: types.AUTH_FAIL,
+    type: types.LOGIN_FAILURE,
     error: error
   }
 }
@@ -25,7 +25,7 @@ export const authFail = error => {
 export const logout = () => {
   localStorage.removeItem('token');
   return {
-    type: types.AUTH_LOGOUT
+    type: types.LOGOUT
   };
 }
 
@@ -39,39 +39,39 @@ export const checkAuthTimeout = expirationTime => {
 
 export const authLogin = (email, password) => {
   return dispatch => {
-    dispatch(authStart());
+    dispatch(loginRequest());
     axios.post('http://127.0.0.1:8000/api/users/login/', {
       email: email,
       password: password
     })
       .then(res => {
-        console.log('auth login data : ', res.data)
+        console.log('login data : ', res.data)
         const token = res.data.token;
         localStorage.setItem('token', token);
-        dispatch(authSuccess(token));
+        dispatch(loginSuccess(token));
       })
       .catch(error => {
-        dispatch(authFail(error))
+        dispatch(loginFailure(error))
       })
   }
 }
 
 export const authSignup = (email, username, password) => {
   return dispatch => {
-    dispatch(authStart());
+    dispatch(loginRequest());
     axios.post('http://127.0.0.1:8000/api/users/register/', {
       email: email,
       username: username,
       password: password
     })
       .then(res => {
-        console.log('auth signup data : ', res.data)
+        console.log('signup data : ', res.data)
         const token = res.data.token;
         localStorage.setItem('token', token);
-        dispatch(authSuccess(token));
+        dispatch(loginSuccess(token));
       })
       .catch(err => {
-        dispatch(authFail(err))
+        dispatch(loginFailure(err))
       })
   }
 }
@@ -79,9 +79,8 @@ export const authSignup = (email, username, password) => {
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('token');
-    dispatch(authSuccess(token));
+    dispatch(loginSuccess(token));
     console.log('authCheckState : ', token)
-    console.log('localStorage.getItem("token")', localStorage.getItem('token'))
   }
 }
 

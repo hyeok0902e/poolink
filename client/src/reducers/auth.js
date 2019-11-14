@@ -7,7 +7,7 @@ const initialState = {
   loading: false
 }
 
-const authStart = (state, action) => {
+const loginRequest = (state, action) => {
   return updateObject(state, {
     token: action.token,
     error: null,
@@ -15,8 +15,8 @@ const authStart = (state, action) => {
   });
 }
 
-const authSuccess = (state, action) => {
-  console.log("AUTH SUCCESS")
+const loginSuccess = (state, action) => {
+  console.log("LOGIN_SUCCESS")
   return updateObject(state, {
       token: action.token,
       error: null,
@@ -24,15 +24,16 @@ const authSuccess = (state, action) => {
   });
 }
 
-const authFail = (state, action) => {
+const loginFailure = (state, action) => {
+  console.log("LOGIN_FAILURE");
   return updateObject(state, {
     error: action.error,
     loading: false
   });
 }
 
-const authLogout = (state, action) => {
-  console.log("AUTH LOGOUT")
+const logout = (state, action) => {
+  console.log("LOGOUT")
   return updateObject(state, {
     token: null
   });
@@ -40,14 +41,14 @@ const authLogout = (state, action) => {
 
 const reducer = (state=initialState, action) => {
   switch (action.type) {
-    case types.AUTH_START:
-      return authStart(state, action);
-    case types.AUTH_SUCCESS:
-      return authSuccess(state, action);
-    case types.AUTH_FAIL:
-      return authFail(state, action);
-    case types.AUTH_LOGOUT:
-      return authLogout(state, action);
+    case types.LOGIN_REQUEST:
+      return loginRequest(state, action);
+    case types.LOGIN_SUCCESS:
+      return loginSuccess(state, action);
+    case types.LOGIN_FAILURE:
+      return loginFailure(state, action);
+    case types.LOGOUT:
+      return logout(state, action);
     default:
       return state;
   }
