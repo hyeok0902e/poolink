@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as actions from './actions/auth';
 import Header from './containers/layout/header';
-import Footer from './containers/layout/footer';
 import Login from './containers/login';
 import Signup from './containers/signup';
 import PostList from './containers/postlist';
@@ -29,7 +28,6 @@ class App extends Component {
           <Route exact path="/posts/:postId" component={PostDetail} />
           <Route exact path="/categories" component={CategoryList} />
         </Switch>
-        <Footer />
       </BrowserRouter>
     );
   }

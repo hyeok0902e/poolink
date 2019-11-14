@@ -2,11 +2,11 @@ import React from 'react';
 import moment from 'moment';
 import { Table } from 'react-bootstrap';
 
-import HomeContainer from '../../containers/home';
+
 
 const Post = (props) => {
   return (
-    <HomeContainer>
+    
       <Table responsive className="post-list">
         <thead>
           <tr>
@@ -25,7 +25,7 @@ const Post = (props) => {
           ))}
         </tbody>
       </Table>
-    </HomeContainer>
+    
   );
 }
 

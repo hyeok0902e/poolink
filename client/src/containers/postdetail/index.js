@@ -7,7 +7,6 @@ import moment from 'moment';
 import * as actions from '../../actions/post';
 
 import PostForm from '../../components/postform';
-import HomeContainer from '../../containers/home';
 
 class PostDetail extends Component {
   state = {
@@ -49,7 +48,7 @@ class PostDetail extends Component {
 
   render() {
     return (
-      <HomeContainer>
+      <div>
 
         {
           this.state.btnState !== true ?
@@ -75,7 +74,7 @@ class PostDetail extends Component {
         <NavLink to="#" className="post-delete-link">
           <button onClick={this.handleDelete}>삭제하기</button>
         </NavLink>
-      </HomeContainer>
+      </div>
     )
   }
 }
