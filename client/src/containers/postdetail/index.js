@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import * as actions from '../../actions/post';
 
@@ -67,6 +68,7 @@ class PostDetail extends Component {
         }
         <div>
           <p>category : {this.state.category.title}</p>
+          <p>created_at : {moment(this.state.post.created_at).format('YYYY.MM.DD h.mm.ss')}</p>
           <p>title : {this.state.post.title}</p>
           <p>content : {this.state.post.content}</p>
         </div>

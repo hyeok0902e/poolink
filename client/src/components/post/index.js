@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Table } from 'react-bootstrap';
 
 import HomeContainer from '../../containers/home';
@@ -19,7 +20,7 @@ const Post = (props) => {
             <tr key={index}>
               <td><a href={`posts/${post.id}`}>{post.title}</a></td>
               <td>{post.user.username}</td>
-              <td>{post.created_at}</td>
+              <td>{moment(post.created_at).fromNow()}</td>
             </tr>
           ))}
         </tbody>
