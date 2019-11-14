@@ -4,13 +4,35 @@ import axios from 'axios';
 
 import * as actions from '../../actions/post';
 
+
 class PostForm extends Component {
+  state = {
+    categories: []
+  }
+
+  componentDidMount() {
+    axios.get('http://127.0.0.1:8000/api/categories/')
+      .then(res => {
+        console.log('res data = ', res.data)
+        this.setState({
+          categories: res.data
+        });
+      })
+  }
+
+  
   handleSubmit = (e, requestType, postId) => {
+    
     e.preventDefault();
+    const categoryId = this.state.categories.filter(item => (
+      item.title == e.target.elements.category.value));
+    
     const newPost = {
+      category: categoryId[0].id,
       title: e.target.elements.title.value,
       content: e.target.elements.content.value
     }
+
     switch (requestType) {
       case 'POST':
         return this.props.createPost(newPost);
@@ -21,11 +43,21 @@ class PostForm extends Component {
   }
 
   render() {
+    const categories = this.state.categories.map((category, index) => {
+      return (
+        <option key={index} name='category'>{category.title}</option>
+      );
+    });
+        
     return (
       <form onSubmit={(event) => this.handleSubmit(
           event,
           this.props.requestType,
           this.props.postId )}>
+        <select name='category'>
+          {categories}
+        </select>
+        
         <label>제목:
           <input type='text' name='title' />
         </label>
@@ -44,7 +76,7 @@ const mapStateToProps = state => {
   return {
     loading: state.loading,
     error: state.error,
-    token: state.token
+    token: state.token,
   };
 };
 

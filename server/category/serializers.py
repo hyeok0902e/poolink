@@ -17,6 +17,7 @@ class CategoryListSerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = [
+            'id',
             'url',
             'title',
             'slug',

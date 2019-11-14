@@ -51,6 +51,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
 
 # user should to change to request.user
 class PostCreateUpdateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Post
         fields = [
