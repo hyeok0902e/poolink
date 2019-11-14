@@ -67,7 +67,8 @@ REST_FRAMEWORK = {
         # TODO : Shoul have change this option after renovate APIViews
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         # 'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    "DATE_INPUT_FORMATS": ["%d-%m-%Y"],
 }
 
 # JWT setting
@@ -155,7 +156,7 @@ AUTENTICATION_BACKENDS = (
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -163,7 +164,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

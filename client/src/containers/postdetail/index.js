@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import * as actions from '../../actions/post';
 
 import PostForm from '../../components/postform';
-import HomeContainer from '../../containers/home';
 
 class PostDetail extends Component {
   state = {
@@ -48,7 +48,7 @@ class PostDetail extends Component {
 
   render() {
     return (
-      <HomeContainer>
+      <div>
 
         {
           this.state.btnState !== true ?
@@ -67,13 +67,14 @@ class PostDetail extends Component {
         }
         <div>
           <p>category : {this.state.category.title}</p>
+          <p>created_at : {moment(this.state.post.created_at).format('YYYY.MM.DD h.mm.ss')}</p>
           <p>title : {this.state.post.title}</p>
           <p>content : {this.state.post.content}</p>
         </div>
         <NavLink to="#" className="post-delete-link">
           <button onClick={this.handleDelete}>삭제하기</button>
         </NavLink>
-      </HomeContainer>
+      </div>
     )
   }
 }

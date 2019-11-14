@@ -93,10 +93,7 @@ export const updatePost = (postId, newPost) => dispatch => {
     dispatch(updatePostRequest);
     
     return axios.put(
-        `http://127.0.0.1:8000/api/posts/${postId}/edit/`, {
-            title: newPost.title,
-            content: newPost.content
-        }, getConfig())
+        `http://127.0.0.1:8000/api/posts/${postId}/edit/`, newPost, getConfig())
         .then(res => dispatch(updatePostSuccess))
         .catch(error => dispatch(updatePostFailure));
 };

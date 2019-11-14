@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import * as actions from '../../actions/auth';
-import HomeContainer from '../home';
+
 
 class Login extends Component {
   handleSubmit = (e) => {
@@ -18,7 +18,7 @@ class Login extends Component {
 
   render() {
     return (
-      <HomeContainer>
+      <div>
         <form onSubmit={this.handleSubmit}>
           <h1>로그인</h1>
           <input placeholder="email" type="text" name="email" required="" />
@@ -28,7 +28,7 @@ class Login extends Component {
         <NavLink to="/signup" className="signup-link">
           <button>회원가입</button>
         </NavLink>
-      </HomeContainer>
+      </div>
     )
   }
 }
