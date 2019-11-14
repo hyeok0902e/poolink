@@ -25,7 +25,7 @@ class PostForm extends Component {
     
     e.preventDefault();
     const categoryId = this.state.categories.filter(item => (
-      item.title == e.target.elements.category.value));
+      item.title === e.target.elements.category.value));
     
     const newPost = {
       category: categoryId[0].id,
