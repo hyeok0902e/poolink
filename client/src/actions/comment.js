@@ -66,3 +66,37 @@ export const createComment = (post_id, newComment) => dispatch => {
       .then(res => dispatch(createCommentSuccess))
       .catch(error => dispatch(createCommentFailure(error)));
 };
+
+export const createReplyRequest = (post_id, comment_id) => {
+  console.log("CREATE_POST_REQUEST");
+  return {
+      type: types.CREATE_POST_REQUEST,
+      post_id,
+      comment_id,
+  };
+};
+
+export const createReplySuccess = () => {
+  console.log("CREATE_POST_SUCCESS");
+  return {
+      type: types.CREATE_POST_SUCCESS
+  };
+};
+
+export const createReplyFailure = (error) => {
+  console.log("CREATE_POST_FAILURE");
+  return {
+      type: types.CREATE_POST_FAILURE,
+      error: error
+  };
+};
+
+export const createReply = (post_id, comment_id, newReply) => dispatch => {
+  dispatch(createCommentRequest(post_id, comment_id));
+
+  return axios.post(
+    'http://127.0.0.1:8000/api/comments/create/?type=post&id=' + post_id + '&parent_id=' + comment_id, 
+    newReply, getConfig())
+      .then(res => dispatch(createCommentSuccess))
+      .catch(error => dispatch(createCommentFailure(error)));
+};

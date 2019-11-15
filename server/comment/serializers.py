@@ -56,6 +56,7 @@ def create_comment_serializer(model_type='post', id=None, parent_id=None, user=N
 
 class CommentListSerializer(serializers.ModelSerializer):
     reply_count = serializers.SerializerMethodField()
+    replies = serializers.SerializerMethodField()
     user = UserDetailSeiralizer(read_only=True)
     url = serializers.HyperlinkedIdentityField(
         view_name='comments-api:detail',
@@ -66,12 +67,19 @@ class CommentListSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'object_id',
+            'parent',
             'url',
             'content',
             'reply_count',
+            'replies',
             'user',
             'created_at',
         ]
+
+    def get_replies(self, obj):
+        if obj.is_parent:
+            return CommentChildSerializer(obj.children(), many=True).data
+        return None
     
     def get_reply_count(self, obj):
         if obj.is_parent:
