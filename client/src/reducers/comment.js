@@ -26,7 +26,7 @@ const commentReducer = (state = initState, action) => {
         ...state,
         isLoading: false,
         error: true
-      }
+      };
     default: {
       return {
         ...state
