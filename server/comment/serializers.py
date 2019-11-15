@@ -65,6 +65,7 @@ class CommentListSerializer(serializers.ModelSerializer):
         model = Comment
         fields = [
             'id',
+            'object_id',
             'url',
             'content',
             'reply_count',

@@ -15,10 +15,6 @@ from rest_framework.generics import (
     CreateAPIView,
     RetrieveUpdateAPIView,
 )
-from .pagination import (
-    PostLimitOffsetPagination,
-    PostPageNumberPagination,
-)
 from rest_framework.filters import (
     SearchFilter,
     OrderingFilter,
@@ -35,7 +31,6 @@ from .models import Comment
 class CommentListAPIView(ListAPIView):
     serializer_class = CommentListSerializer
     permission_classes = [AllowAny]
-    pagination_class = PostPageNumberPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['content', 'user__username']
 
