@@ -46,11 +46,12 @@ export const getDetailPostRequest = (post_id) => {
 
 export const getDetailPostSuccess = post => {
   console.log("GET_DETAIL_POST_SUCCESS");
+  console.log(post)
   return {
       type: types.GET_DETAIL_POST_SUCCESS,
       title: post.title,
       content: post.content,
-      category: post.category,
+      category: post.category.title,
       username: post.user.username,
   };
 };

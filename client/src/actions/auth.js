@@ -29,7 +29,7 @@ export const logout = () => {
   };
 }
 
-export const authLogin = (email, password) => {
+export const login = (email, password) => {
   return dispatch => {
     dispatch(loginRequest());
     axios.post('http://127.0.0.1:8000/api/users/login/', {
@@ -37,6 +37,7 @@ export const authLogin = (email, password) => {
       password: password
     })
       .then(res => {
+        console.log('login data : ', res.data)
         const token = res.data.token;
         const expirationDate = new Date(Date.now() + 3600 * 1000);
         localStorage.setItem('token', token);
@@ -49,7 +50,7 @@ export const authLogin = (email, password) => {
   }
 }
 
-export const authSignup = (email, username, password) => {
+export const register = (email, username, password) => {
   return dispatch => {
     dispatch(loginRequest());
     axios.post('http://127.0.0.1:8000/api/users/register/', {
