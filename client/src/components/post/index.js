@@ -1,32 +1,18 @@
-import React from 'react';
-import moment from 'moment';
-import { Table } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
+export default class Post extends Component {
+  render() {
+    const post_id = this.props.match.params.post_id;
 
-
-const Post = (props) => {
-  return (
-    
-      <Table responsive className="post-list">
-        <thead>
-          <tr>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>날짜</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.data.map((post, index) => (
-            <tr key={index}>
-              <td><a href={`posts/${post.id}`}>{post.title}</a></td>
-              <td>{post.user.username}</td>
-              <td>{moment(post.created_at).fromNow()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    
-  );
+    return (
+      <div>
+        <p>{this.props.category ? this.props.category : "카테고리가 등록되지 않았습니다."}</p>
+        <p>{this.props.username}</p>
+        <h1>{this.props.title}</h1>
+        <p>{this.props.content}</p>
+        <Link to={'/' + post_id + '/edit'}>수정하기</Link>
+      </div>
+    )
+  }
 }
-
-export default Post;

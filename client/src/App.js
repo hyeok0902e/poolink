@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import Home from './components/Home';
-import Contact from './components/Contact';
-import About from './components/About';
-import Post from './components/Post';
+import NavBar from './components/navbar/index';
+import Home from './components/home/index';
+import PostList from './containers/post';
+import PostDetail from './containers/post/detail';
+import PostCreateForm from './components/form/post/create';
+import PostEditForm from './components/form/post/edit';
 
 class App extends Component {
   render() {
@@ -14,9 +15,12 @@ class App extends Component {
           <NavBar />
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/about' component={About} />
-            <Route path='/contact' component={Contact} />
-            <Route path='/:post_id' component={Post} />
+            <Route exact path='/create' component={PostCreateForm} />
+            
+            <Route path='/posts' component={PostList} />
+            <Route exact path='/:post_id' component={PostDetail} />
+            <Route exact path='/:post_id/edit' component={PostEditForm} />
+            
           </Switch>
         </div>
       </BrowserRouter>
