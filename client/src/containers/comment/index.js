@@ -5,7 +5,6 @@ import Comment from '../../components/comment';
 
 class CommentContainer extends Component {
   componentDidMount() {
-    
     this.props.getComment(this.props.match.params.post_id);
   }
 
@@ -19,7 +18,7 @@ class CommentContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
   let post_id = ownProps.match.params.post_id;
   return {
-    comments: state.comment.comments.filter(comment => comment.object_id == post_id)
+    comments: state.comment.comments.filter(comment => comment.object_id === parseInt(post_id))
   }
   
 };

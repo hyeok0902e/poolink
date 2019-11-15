@@ -5,7 +5,7 @@ const NavBar = () => {
   return (
     <nav className="nav-wrapper">
       <div className="container">
-        <a className="brand-logo">
+        <a href="/" className="brand-logo">
           POOLINK
         </a>
         <ul className="right">

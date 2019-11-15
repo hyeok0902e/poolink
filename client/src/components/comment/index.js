@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CommentForm from '../form/comment/create';
 
 export default class Comment extends Component {
   render() {
@@ -6,7 +7,7 @@ export default class Comment extends Component {
     const comment = this.props.comments.length !== 0 ? (
       this.props.comments.map(comment => {
         return (
-          <div>
+          <div key={comment.id}>
             <p>{comment.content} - 작성자 : {comment.user.username}</p>
           </div>
         )
@@ -18,6 +19,7 @@ export default class Comment extends Component {
     return (
       <div>
         {comment}
+        <CommentForm {...this.props}/>
       </div>
     )
   }
