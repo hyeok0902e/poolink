@@ -9,10 +9,11 @@ export const getPostRequest = () => {
     };
 };
 
-export const getPostSuccess = () => {
+export const getPostSuccess = posts => {
     console.log("GET_POST_SUCCESS");
     return {
-        type: types.GET_POST_SUCCESS
+        type: types.GET_POST_SUCCESS,
+        posts,
     };
 };
 
@@ -25,14 +26,50 @@ export const getPostFailure = (error) => {
 };
 
 export const getPost = () => dispatch => {
-    dispatch(getPostRequest);
+  dispatch(getPostRequest);
 
-    return axios.get('http://127.0.0.1:8000/api/posts/')
-        .then(res => {
-            dispatch(getPostSuccess)
-            return res.data;
-        })
-        .catch(error => dispatch(getPostFailure));
+  return axios.get('http://127.0.0.1:8000/api/posts/')
+      .then(res => {
+          dispatch(getPostSuccess(res.data))
+      })
+      .catch(error => dispatch(getPostFailure(error)));
+}
+
+
+export const getDetailPostRequest = (post_id) => {
+  console.log("GET_DETAIL_POST_REQUEST");
+  return {
+      type: types.GET_DETAIL_POST_REQUEST,
+      post_id
+  };
+};
+
+export const getDetailPostSuccess = post => {
+  console.log("GET_DETAIL_POST_SUCCESS");
+  return {
+      type: types.GET_DETAIL_POST_SUCCESS,
+      title: post.title,
+      content: post.content,
+      username: post.user.username,
+  };
+};
+
+export const getDetailPostFailure = (error) => {
+  console.log("GET_DETAIL_POST_FAILURE");
+  return {
+      type: types.GET_DETAIL_POST_FAILURE,
+      error: error
+  };
+};
+
+export const getDetailPost = (post_id) => dispatch => {
+  dispatch(getDetailPostRequest(post_id));
+
+  return axios.get('http://127.0.0.1:8000/api/posts/' + post_id + '/')
+      .then(res => {
+          dispatch(getDetailPostSuccess(res.data))
+      })
+      .catch(error => dispatch(getDetailPostFailure(error)));
 }
 
 export const createPostRequest = () => {

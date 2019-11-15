@@ -1,48 +1,34 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import { connect } from 'react-redux';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import * as actions from './actions/auth';
-import Header from './containers/layout/header';
-import Login from './containers/login';
-import Signup from './containers/signup';
-import PostList from './containers/postlist';
-import CategoryList from './containers/categorylist';
-import PostDetail from './containers/postdetail';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import NavBar from './components/navbar/index';
+import Home from './components/home/index';
+import LoginForm from './components/form/login/index';
+import RegisterForm from './components/form/register/index';
+import PostList from './containers/post';
+import PostDetail from './containers/post/detail';
+import PostCreateForm from './components/form/post/create';
+import PostEditForm from './components/form/post/edit';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.onTryAutoSignup();
-  }
-
   render() {
     return (
       <BrowserRouter>
-        <Header {...this.props}/>
-        <Switch>
-          <Route exact path="/" component={PostList}/>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/posts/:postId" component={PostDetail} />
-          <Route exact path="/categories" component={CategoryList} />
-        </Switch>
+        <div className="app">
+          <NavBar />
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/login' component={LoginForm} />
+            <Route exact path='/create' component={PostCreateForm} />
+            <Route exact path='/register' component={RegisterForm} />
+            <Route path='/posts' component={PostList} />
+            <Route exact path='/:post_id' component={PostDetail} />
+            <Route exact path='/:post_id/edit' component={PostEditForm} />
+            
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.token !== null
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
