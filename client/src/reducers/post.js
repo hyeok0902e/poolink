@@ -2,9 +2,8 @@ import * as types from '../actions/types';
 
 const initState = {
   isLoading: false,
-  error: null,
+  error: false,
   posts: [],
-  category: null,
   title: null,
   content: null,
   username: null,
@@ -44,7 +43,6 @@ const postReducer = (state = initState, action) => {
         error: false,
         title: action.title,
         content: action.content,
-        category: action.category,
         username: action.username,
       }
     case types.GET_DETAIL_POST_FAILURE:

@@ -51,7 +51,6 @@ export const getDetailPostSuccess = post => {
       type: types.GET_DETAIL_POST_SUCCESS,
       title: post.title,
       content: post.content,
-      category: post.category.title,
       username: post.user.username,
   };
 };

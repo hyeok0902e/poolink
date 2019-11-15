@@ -8,6 +8,7 @@ import PostList from './containers/post';
 import PostDetail from './containers/post/detail';
 import PostCreateForm from './components/form/post/create';
 import PostEditForm from './components/form/post/edit';
+import CommentCatiner from './containers/comment/index';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path='/create' component={PostCreateForm} />
             <Route exact path='/register' component={RegisterForm} />
             <Route path='/posts' component={PostList} />
+            <Route exact path='/comment' component={CommentCatiner} />
             <Route exact path='/:post_id' component={PostDetail} />
             <Route exact path='/:post_id/edit' component={PostEditForm} />
             

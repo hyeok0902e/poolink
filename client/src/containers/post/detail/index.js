@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getDetailPost } from '../../../actions/post';
 import Post from '../../../components/post/index';
+import CommentContainer from '../../../containers/comment/index';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -11,7 +12,10 @@ class PostDetail extends Component {
 
   render() {
     return (
-      <Post {...this.props} />
+      <div>
+        <Post {...this.props} />
+        <CommentContainer {...this.props}/>
+      </div>
     );
   }
 }
@@ -19,8 +23,7 @@ class PostDetail extends Component {
 const mapStateToProps = state => ({
   title: state.post.title,
   content: state.post.content,
-  category: state.post.category,
-  username: state.post.username
+  username: state.post.username,
 });
 
 const mapDispatchToProps = dispatch => {
