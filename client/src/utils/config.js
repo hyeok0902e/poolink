@@ -10,7 +10,6 @@ export const getConfig = () => {
   if (token) {
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: 'Jwt ' + token
       }
     };

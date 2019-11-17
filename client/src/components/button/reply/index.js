@@ -5,7 +5,8 @@ export default class ReplyButton extends Component {
   state = {
     btnState: false
   }
-  handleBtn = (e) => {
+
+  handleBtn = () => {
     if (this.state.btnState === false) {
       this.setState({
         btnState: true

@@ -8,10 +8,13 @@ export const loginRequest = () => {
   }
 }
 
-export const loginSuccess = token => {
+export const loginSuccess = data => {
+  console.log(data)
   return {
     type: types.LOGIN_SUCCESS,
-    token: token
+    token: data.token,
+    username: data.username,
+    email: data.email
   }
 }
 
@@ -24,49 +27,10 @@ export const loginFailure = error => {
 
 export const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('expirationDate');
   return {
     type: types.LOGOUT
   };
-}
-
-export const userCheckRequest = () => {
-  return {
-    type: types.USER_CHECK_REQUEST
-  }
-}
-
-export const userCheckSuccess = (token) => {
-  return {
-    type: types.USER_CHECK_SUCCESS,
-    token
-  }
-}
-
-export const userCheckFailure = () => {
-  return {
-    type: types.USER_CEHCK_FAILURE
-  }
-}
-
-export const userCheck = () => {
-  return dispatch => {
-    dispatch(userCheckRequest())
-
-    const token = localStorage.getItem('token');
-    if (token === null) {
-      dispatch(userCheckFailure())
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem('expirationDate'));
-
-      if (expirationDate <= new Date()) {
-        dispatch(userCheckFailure())
-        dispatch(logout());
-      } else {
-        dispatch(userCheckSuccess(token));
-      }
-    }
-  }
 }
 
 export const login = (email, password) => {
@@ -77,12 +41,11 @@ export const login = (email, password) => {
       password: password
     })
       .then(res => {
-        console.log('login data : ', res.data)
         const token = res.data.token;
         const expirationDate = new Date(Date.now() + 3600 * 1000);
         localStorage.setItem('token', token);
         localStorage.setItem('expirationDate', expirationDate);
-        dispatch(loginSuccess(token));
+        dispatch(loginSuccess(res.data));
       })
       .catch(error => {
         dispatch(loginFailure(error))
@@ -99,7 +62,6 @@ export const register = (email, username, password) => {
       password: password
     })
       .then(res => {
-        console.log('signup data : ', res.data)
         const token = res.data.token;
         const expirationDate = new Date(Date.now() + 3600 * 1000);
         localStorage.setItem('token', token);

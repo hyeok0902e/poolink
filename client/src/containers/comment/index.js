@@ -18,8 +18,12 @@ class CommentContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
   let post_id = ownProps.match.params.post_id;
   return {
-    comments: state.comment.comments.filter(comment => comment.object_id === parseInt(post_id)),
-    replies: state.comment.comments.filter(comment => comment.object_id === parseInt(post_id) && comment.replies !== null && comment.replies.length > 0),
+    comments: state.comment.comments.filter(
+      comment => comment.object_id === parseInt(post_id)),
+    replies: state.comment.comments.filter(
+      comment => comment.object_id === parseInt(post_id) 
+      && comment.replies !== null 
+      && comment.replies.length > 0),
     post_id: post_id
   }
   

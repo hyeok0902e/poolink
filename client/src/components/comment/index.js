@@ -16,7 +16,6 @@ export default class Comment extends Component {
 
               {comment.replies.map(reply => {
                 return (
-                  
                   <div key={reply.id}>
                     <p>ㄴ{reply.content} - 작성자 : {reply.user.username}</p>
                   </div>

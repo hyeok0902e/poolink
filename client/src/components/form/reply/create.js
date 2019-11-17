@@ -3,6 +3,16 @@ import { connect } from 'react-redux';
 import { createReply } from '../../../actions/comment';
 
 class CreateReplyForm extends Component {
+  constructor(props) {
+    super(props);
+    this.refreshPage = this.refreshPage.bind(this);
+  }
+
+  refreshPage() {
+    setTimeout(() => {
+      window.location.reload();
+    }, 300)
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -11,7 +21,8 @@ class CreateReplyForm extends Component {
     const newReply = {
       content: e.target.elements.content.value
     }
-    return this.props.createReply(post_id, comment_id, newReply);
+    this.props.createReply(post_id, comment_id, newReply);
+    return this.refreshPage();
   }
 
   render() {

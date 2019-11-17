@@ -3,6 +3,8 @@ import * as types from '../actions/types';
 const initialState = {
   token: null,
   isAuthenticated: false,
+  username: null,
+  email: null,
   error: null,
   isLoading: false
 }
@@ -20,6 +22,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         token: action.token,
         isAuthenticated: true,
+        username: action.username,
+        email: action.email,
         isLoading: false,
         error: false,
       }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userCheck } from '../../actions/auth';
+import { userCheck } from '../../actions/user';
 
 class BaseContainer extends Component {
   componentDidMount() {
@@ -8,7 +8,6 @@ class BaseContainer extends Component {
   }
 
   render() {
-    console.log('로그인 되어있나?', this.props.isAuthenticated)
     return (
       <div />
     )
@@ -17,7 +16,7 @@ class BaseContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.user.isAuthenticated
   }
 };
 

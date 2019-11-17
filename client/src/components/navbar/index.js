@@ -7,6 +7,7 @@ import { logout } from '../../actions/auth';
 class NavBar extends Component {
   btnLogout = () => {
     this.props.logout();
+    window.location.reload();
   }
 
   render () {
