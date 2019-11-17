@@ -29,6 +29,46 @@ export const logout = () => {
   };
 }
 
+export const userCheckRequest = () => {
+  return {
+    type: types.USER_CHECK_REQUEST
+  }
+}
+
+export const userCheckSuccess = (token) => {
+  return {
+    type: types.USER_CHECK_SUCCESS,
+    token
+  }
+}
+
+export const userCheckFailure = () => {
+  return {
+    type: types.USER_CEHCK_FAILURE
+  }
+}
+
+export const userCheck = () => {
+  return dispatch => {
+    dispatch(userCheckRequest())
+
+    const token = localStorage.getItem('token');
+    if (token === null) {
+      dispatch(userCheckFailure())
+      dispatch(logout());
+    } else {
+      const expirationDate = new Date(localStorage.getItem('expirationDate'));
+
+      if (expirationDate <= new Date()) {
+        dispatch(userCheckFailure())
+        dispatch(logout());
+      } else {
+        dispatch(userCheckSuccess(token));
+      }
+    }
+  }
+}
+
 export const login = (email, password) => {
   return dispatch => {
     dispatch(loginRequest());
@@ -71,21 +111,3 @@ export const register = (email, username, password) => {
       })
   }
 }
-
-export const authCheckState = () => {
-  return dispatch => {
-    const token = localStorage.getItem('token');
-    if (token === undefined) {
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem('expirationDate'));
-
-      if (expirationDate <= new Date()) {
-        dispatch(logout());
-      } else {
-        dispatch(loginSuccess(token));
-      }
-    }
-  }
-}
-

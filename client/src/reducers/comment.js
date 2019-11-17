@@ -13,7 +13,7 @@ const commentReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: null,
+        error: false,
       };
     case types.GET_COMMENT_SUCCESS:
       return {

@@ -1,56 +1,67 @@
 import * as types from '../actions/types';
-import { updateObject } from '../utils/config';
 
 const initialState = {
   token: null,
+  isAuthenticated: false,
   error: null,
-  loading: false
+  isLoading: false
 }
 
-const loginRequest = (state, action) => {
-  return updateObject(state, {
-    token: action.token,
-    error: null,
-    loading: false
-  });
-}
-
-const loginSuccess = (state, action) => {
-  console.log("LOGIN_SUCCESS")
-  return updateObject(state, {
-      token: action.token,
-      error: null,
-      loading: false
-  });
-}
-
-const loginFailure = (state, action) => {
-  console.log("LOGIN_FAILURE");
-  return updateObject(state, {
-    error: action.error,
-    loading: false
-  });
-}
-
-const logout = (state, action) => {
-  console.log("LOGOUT")
-  return updateObject(state, {
-    token: null
-  });
-}
-
-const authReducer = (state=initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_REQUEST:
-      return loginRequest(state, action);
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      }
     case types.LOGIN_SUCCESS:
-      return loginSuccess(state, action);
+      return {
+        ...state,
+        token: action.token,
+        isAuthenticated: true,
+        isLoading: false,
+        error: false,
+      }
     case types.LOGIN_FAILURE:
-      return loginFailure(state, action);
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: true
+      }
     case types.LOGOUT:
-      return logout(state, action);
-    default:
-      return state;
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+      }
+    case types.USER_CHECK_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      }
+    case types.USER_CHECK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        token: action.token,
+        isAuthenticated: true,
+      }
+    case types.USER_CEHCK_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: true
+      }
+    default: {
+      return {
+        ...state
+      }
+    }
   }
 }
 

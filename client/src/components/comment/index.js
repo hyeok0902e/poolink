@@ -18,7 +18,7 @@ export default class Comment extends Component {
                 return (
                   
                   <div key={reply.id}>
-                    <p>ㄴ{reply.content}</p>
+                    <p>ㄴ{reply.content} - 작성자 : {reply.user.username}</p>
                   </div>
                 )
               })}
