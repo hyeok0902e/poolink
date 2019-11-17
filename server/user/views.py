@@ -78,15 +78,13 @@ class UserLoginAPIView(APIView):
                                 password=serializer.validated_data['password'])
 
             if user is not None:
-                username = user.username
-
                 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
                 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
                 # TODO : Fix here!! Important
-                return Response({'token': token, 'username': username}, status=HTTP_200_OK)
+                return Response({'token': token, 'username': user.username, 'email': user.email}, status=HTTP_200_OK)
             else:
                 return Response({'msg': 'Credentials are not valid!'}, status=HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
