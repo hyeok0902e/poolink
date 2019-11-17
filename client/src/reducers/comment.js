@@ -4,6 +4,7 @@ const initState = {
   isLoading: false,
   error: false,
   comments: [],
+  replies: [],
 }
 
 const commentReducer = (state = initState, action) => {
@@ -12,14 +13,15 @@ const commentReducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: true,
-        error: null,
+        error: false,
       };
     case types.GET_COMMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
         error: false,
-        comments: action.comments
+        comments: action.comments,
+        replies: action.replies,
       };
     case types.GET_COMMENT_FAILURE:
       return {

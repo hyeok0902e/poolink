@@ -1,11 +1,27 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 
-export default class PostList extends Component {
+class PostList extends Component {
+  btnHandle = () => {
+    this.props.history.push('/create');
+  }
+
   render() {
-    const { posts } = this.props;
+    const {
+      posts,
+      isAuthenticated
+    } = this.props;
+
+    
+    const postCreateBtn = isAuthenticated !== false ? (
+      <button onClick={this.btnHandle}>글쓰기</button>
+    ) : (
+      <p>로그인 한 후 글을 쓸 수 있습니다.</p>
+    )
+
 
     const postList = posts.length ? (
       posts.map(post => {
@@ -27,9 +43,20 @@ export default class PostList extends Component {
     
     return (
       <div>
-        <Link to='/create'>글쓰기</Link>
+        {postCreateBtn}
         {postList}
       </div>
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(PostList);

@@ -3,6 +3,22 @@ import { connect } from 'react-redux';
 import { createPost } from '../../../actions/post'
 
 class PostCreateForm extends Component {
+  constructor(props) {
+    super(props);
+    this.goBack = this.goBack.bind(this);
+  }
+
+  goBack() {
+    this.props.history.goBack();
+    this.refreshPage();
+  }
+
+  refreshPage() {
+    setTimeout(() => {
+      window.location.reload();
+    }, 100)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
@@ -10,7 +26,8 @@ class PostCreateForm extends Component {
       content: e.target.elements.content.value
     }
     console.log(newPost)
-    return this.props.createPost(newPost);
+    this.props.createPost(newPost);
+    return this.goBack();
   }
 
   render() {

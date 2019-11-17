@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import BaseContainer from './containers/base/index';
 import NavBar from './components/navbar/index';
 import Home from './components/home/index';
 import LoginForm from './components/form/login/index';
@@ -23,9 +24,9 @@ class App extends Component {
             <Route path='/posts' component={PostList} />
             <Route exact path='/:post_id' component={PostDetail} />
             <Route exact path='/:post_id/edit' component={PostEditForm} />
-            
           </Switch>
         </div>
+        <BaseContainer />
       </BrowserRouter>
     );
   }

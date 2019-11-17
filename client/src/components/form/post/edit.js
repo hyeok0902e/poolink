@@ -3,6 +3,17 @@ import { connect } from 'react-redux';
 import { updatePost } from '../../../actions/post'
 
 class PostEditForm extends Component {
+  constructor(props) {
+    super(props);
+    this.goBack = this.goBack.bind(this);
+  }
+
+  goBack() {
+    setTimeout(() => {
+      this.props.history.goBack();
+    }, 500)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
@@ -10,7 +21,9 @@ class PostEditForm extends Component {
       content: e.target.elements.content.value
     }
     const post_id = this.props.match.params.post_id;
-    return this.props.updatePost(post_id, newPost);
+    this.props.updatePost(post_id, newPost);
+    
+    return this.goBack();
   }
 
   render() {

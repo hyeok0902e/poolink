@@ -3,6 +3,10 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILRE';
 export const LOGOUT = 'LOGOUT';
+// User Check
+export const USER_CHECK_REQUEST = 'USER_CHECK_REQUEST';
+export const USER_CHECK_SUCCESS = 'USER_CHECK_SUCCESS';
+export const USER_CEHCK_FAILURE = 'USER_CHECK_FAILURE';
 // Post GET
 export const GET_POST_REQUEST = 'GET_POST_REQUEST';
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';

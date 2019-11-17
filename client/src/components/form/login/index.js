@@ -3,14 +3,24 @@ import { connect } from 'react-redux';
 import { login } from '../../../actions/auth'
 
 class LoginForm extends Component {
+  constructor(props) {
+    super(props);
+    this.goBack = this.goBack.bind(this);
+  }
+
+  goBack() {
+    setTimeout(() => {
+      this.props.history.goBack();
+    }, 300)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     
     const email = e.target.elements.email.value;
     const password = e.target.elements.password.value;
-    
-
-    return this.props.login(email, password);
+    this.props.login(email, password);
+    return this.goBack();
   }
 
   render() {

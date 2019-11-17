@@ -24,6 +24,7 @@ const mapStateToProps = state => ({
   title: state.post.title,
   content: state.post.content,
   username: state.post.username,
+  isAuthenticated: state.user.isAuthenticated
 });
 
 const mapDispatchToProps = dispatch => {

@@ -8,10 +8,13 @@ export const loginRequest = () => {
   }
 }
 
-export const loginSuccess = token => {
+export const loginSuccess = data => {
+  console.log(data)
   return {
     type: types.LOGIN_SUCCESS,
-    token: token
+    token: data.token,
+    username: data.username,
+    email: data.email
   }
 }
 
@@ -24,6 +27,7 @@ export const loginFailure = error => {
 
 export const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('expirationDate');
   return {
     type: types.LOGOUT
   };
@@ -37,12 +41,11 @@ export const login = (email, password) => {
       password: password
     })
       .then(res => {
-        console.log('login data : ', res.data)
         const token = res.data.token;
         const expirationDate = new Date(Date.now() + 3600 * 1000);
         localStorage.setItem('token', token);
         localStorage.setItem('expirationDate', expirationDate);
-        dispatch(loginSuccess(token));
+        dispatch(loginSuccess(res.data));
       })
       .catch(error => {
         dispatch(loginFailure(error))
@@ -59,7 +62,6 @@ export const register = (email, username, password) => {
       password: password
     })
       .then(res => {
-        console.log('signup data : ', res.data)
         const token = res.data.token;
         const expirationDate = new Date(Date.now() + 3600 * 1000);
         localStorage.setItem('token', token);
@@ -71,21 +73,3 @@ export const register = (email, username, password) => {
       })
   }
 }
-
-export const authCheckState = () => {
-  return dispatch => {
-    const token = localStorage.getItem('token');
-    if (token === undefined) {
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem('expirationDate'));
-
-      if (expirationDate <= new Date()) {
-        dispatch(logout());
-      } else {
-        dispatch(loginSuccess(token));
-      }
-    }
-  }
-}
-

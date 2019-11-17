@@ -17,6 +17,7 @@ class PostContainer extends Component {
 
 const mapStateToProps = state => ({
   posts: state.post.posts,
+  isAuthenticated: state.user.isAuthenticated
 });
 
 const mapDispatchToProps = dispatch => {
