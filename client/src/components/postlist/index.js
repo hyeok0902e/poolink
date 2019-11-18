@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Container, Button } from '@material-ui/core';
+import { Container, Button, Typography } from '@material-ui/core';
 
 
 class PostList extends Component {
@@ -27,7 +27,13 @@ class PostList extends Component {
         ADD POST
       </Button>
     ) : (
-      <p>로그인 한 후 글을 쓸 수 있습니다.</p>
+      <Typography 
+        variant='subtitle1'
+        align='center'
+        component='p'
+        >
+          회원만 글을 쓸 수 있습니다.
+      </Typography>
     )
 
 
@@ -51,7 +57,12 @@ class PostList extends Component {
     
     return (
       <Container maxWidth='lg'>
-        {postCreateBtn}
+        <Container
+          align='center'
+          maxWidth='lg'>
+          {postCreateBtn}
+        </Container>
+        
         {postList}
       </Container>
     )

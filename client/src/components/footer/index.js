@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import { Container, Typography } from '@material-ui/core';
+import './styles.css';
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      TIGERMEAL
+      {' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default class Footer extends Component {
   render() {
     return (
       <footer className='footer'>
-        <Container maxWidth='lg'>
+        <Container maxWidth='sm'>
           <Typography
             variant='h6'
             align='center'
@@ -19,8 +32,9 @@ export default class Footer extends Component {
             color='textSecondary'
             component='p'
             >
-              POOLINK EXPLAIN
+            POOLINK links person to each other
           </Typography>
+          <Copyright />
           </Container>
       </footer>
     )
