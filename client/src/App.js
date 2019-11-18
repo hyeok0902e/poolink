@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './containers/navbar/index';
+import Footer from './components/footer/index';
 import Home from './components/home/index';
 import LoginForm from './components/form/login/index';
 import RegisterForm from './components/form/register/index';
@@ -26,6 +27,7 @@ class App extends Component {
               <Route exact path='/:post_id' component={PostDetail} />
               <Route exact path='/:post_id/edit' component={PostEditForm} />
             </Switch>
+          <Footer />
         </BrowserRouter>
       </React.Fragment>
     );

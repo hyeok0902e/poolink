@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link,  withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { logout } from '../../actions/auth';
 import { userCheck } from '../../actions/user';
 import { Container, Typography, Button, Toolbar } from '@material-ui/core';
@@ -37,14 +37,6 @@ class NavBar extends Component {
             size='small'
             >
             Login
-          </Button>
-        </Link>
-        <Link to='/register' className='toolbarLink'>
-          <Button
-            variant='outlined'
-            size='small'
-            >
-            Register
           </Button>
         </Link>
       </div>
