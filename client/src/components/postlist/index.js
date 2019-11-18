@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Container, Button } from '@material-ui/core';
 
 
 class PostList extends Component {
@@ -15,9 +16,16 @@ class PostList extends Component {
       isAuthenticated
     } = this.props;
 
+    const currentUser = localStorage.getItem('username')
     
-    const postCreateBtn = isAuthenticated !== false ? (
-      <button onClick={this.btnHandle}>글쓰기</button>
+    const postCreateBtn = (isAuthenticated !== false || currentUser) ? (
+      <Button 
+        variant='outlined'
+        size='small'
+        onClick={this.btnHandle}
+        >
+        ADD POST
+      </Button>
     ) : (
       <p>로그인 한 후 글을 쓸 수 있습니다.</p>
     )
@@ -26,7 +34,7 @@ class PostList extends Component {
     const postList = posts.length ? (
       posts.map(post => {
         return (
-          <div className="post" key={post.id}>
+          <Container maxWidth='lg' className="post" key={post.id}>
             <div className="post-content">
               <Link to={'/' + post.id}>
               <h1 className="post-title">{post.title}</h1>
@@ -34,7 +42,7 @@ class PostList extends Component {
               <p>{post.content}</p>
               <p>{moment(post.created_at).fromNow()}</p>
             </div>
-          </div>
+          </Container>
         )
       })
     ) : (
@@ -42,10 +50,10 @@ class PostList extends Component {
     )
     
     return (
-      <div>
+      <Container maxWidth='lg'>
         {postCreateBtn}
         {postList}
-      </div>
+      </Container>
     )
   }
 }
