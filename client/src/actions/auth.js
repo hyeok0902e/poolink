@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import * as types from './types';
 
+export const authdata = [];
+
+
 export const loginRequest = () => {
   return {
     type: types.LOGIN_REQUEST
@@ -9,7 +12,6 @@ export const loginRequest = () => {
 }
 
 export const loginSuccess = data => {
-  console.log(data)
   return {
     type: types.LOGIN_SUCCESS,
     token: data.token,
@@ -28,6 +30,7 @@ export const loginFailure = error => {
 export const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
+  localStorage.removeItem('username');
   return {
     type: types.LOGOUT
   };
@@ -43,6 +46,7 @@ export const login = (email, password) => {
       .then(res => {
         const token = res.data.token;
         const expirationDate = new Date(Date.now() + 3600 * 1000);
+        localStorage.setItem('username', res.data.username)
         localStorage.setItem('token', token);
         localStorage.setItem('expirationDate', expirationDate);
         dispatch(loginSuccess(res.data));

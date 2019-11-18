@@ -2,9 +2,6 @@ import * as types from '../actions/types';
 
 const initialState = {
   token: null,
-  isAuthenticated: false,
-  username: null,
-  email: null,
   error: null,
   isLoading: false
 }
@@ -21,9 +18,6 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
-        isAuthenticated: true,
-        username: action.username,
-        email: action.email,
         isLoading: false,
         error: false,
       }
@@ -40,26 +34,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         token: null,
         isAuthenticated: false,
-      }
-    case types.USER_CHECK_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        error: false
-      }
-    case types.USER_CHECK_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        error: false,
-        token: action.token,
-        isAuthenticated: true,
-      }
-    case types.USER_CEHCK_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: true
       }
     default: {
       return {

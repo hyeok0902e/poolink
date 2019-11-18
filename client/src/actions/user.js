@@ -3,6 +3,7 @@ import { logout } from './auth';
 import * as types from './types';
 
 export const userCheckRequest = () => {
+  
   console.log("USER_CHECK_REQUEST");
   return {
     type: types.USER_CHECK_REQUEST

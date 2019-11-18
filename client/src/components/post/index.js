@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 class Post extends Component {
   render() {
     const post_id = this.props.match.params.post_id;
-    const currentUser = this.props.currentUser === this.props.username;
+    const currentUser = localStorage.getItem('username')
+    const isAuthor = currentUser === this.props.username;
     
     return (
       <div>
@@ -13,7 +14,7 @@ class Post extends Component {
         <h1>{this.props.title}</h1>
         <p>작성자 - {this.props.username}</p>
         <p>내용 - {this.props.content}</p>
-        {currentUser &&
+        {isAuthor &&
           <Link to={'/' + post_id + '/edit'}>수정하기</Link>
         }
       </div>
@@ -22,11 +23,7 @@ class Post extends Component {
 }
 
 
-const mapStateToProps = state => ({
-  currentUser: state.auth.username
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   null
 )(Post);
