@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../../actions/auth'
+import { Link } from 'react-router-dom';
+import { Button, Container, Typography, TextField } from '@material-ui/core';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -25,12 +27,62 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>로그인</h1>
-        <input placeholder="email" type="text" name="email" required="" />
-        <input placeholder="password" type="password" name="password" required="" />
-        <button>로그인</button>
-      </form>
+      <Container maxWidth='sm'>
+        <Typography
+            component='h2'
+            variant='h5'
+            color='inherit'
+            align='center'
+            className='toolbarTitle'
+            >
+            LOGIN
+        </Typography>
+        <form onSubmit={this.handleSubmit} autoComplete='off' align='center' >
+          
+          <TextField
+            className='textField'
+            label='Email'
+            name='email'
+            margin='normal'
+            />
+          <br />
+          <TextField
+            className='textField'
+            label="Password"
+            name='password'
+            type='password'
+            margin="normal"
+            />
+          <br />
+          <Button
+            type='submit'
+            variant='outlined'
+            size='small'
+            >
+            Login
+          </Button>
+        </form>
+        <br/>
+        <Container maxWidth='sm' align='center'>
+          <Typography 
+            variant='subtitle1'
+            align='center'
+            color='textSecondary'
+            component='p'
+            >
+              회원이 아니신가요?
+          </Typography>
+          <Link to='/register' className='toolbarLink'>
+            <Button
+              variant='outlined'
+              size='small'
+              >
+              Register
+            </Button>
+          </Link>
+        </Container>
+      </Container>
+      
     )
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { register } from '../../../actions/auth'
+import { Container, Typography, TextField, Button } from '@material-ui/core';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -23,23 +24,66 @@ class RegisterForm extends Component {
   }
 
   render() {
-    const form = this.props.isAuthenticated !== false ? (
-      <div>
-        <p>이미 로그인 되어 있습니다.</p>
-      </div>
+    const currentUser = localStorage.getItem('username')
+
+    const form = (this.props.isAuthenticated !== false || currentUser)? (
+      <Typography 
+        variant='subtitle1'
+        align='center'
+        color='textSecondary'
+        component='p'
+        >
+          이미 로그인 되어 있습니다.
+      </Typography>
     ) : (
-      <form onSubmit={this.handleSubmit}>
-        <h1>회원가입</h1>
-        <input placeholder="email" type="text" name="email" required="" />
-        <input placeholder="username" type="text" name="username" required="" />
-        <input placeholder="password" type="password" name="password" required="" />
-        <button>회원가입</button>
-      </form>
+      <Container maxWidth='sm'>
+        <Typography
+          component='h2'
+          variant='h5'
+          color='inherit'
+          align='center'
+          className='toolbarTitle'
+          >
+          REGISTER
+        </Typography>
+        <form onSubmit={this.handleSubmit} autoComplete='off' align='center' >
+          <TextField
+            className='textField'
+            label='Email'
+            name='email'
+            margin='normal'
+            />
+          <br />
+          <TextField
+            className='textField'
+            label='Username'
+            name='username'
+            margin='normal'
+            />
+          <br />
+          <TextField
+            className='textField'
+            label="Password"
+            name='password'
+            type='password'
+            margin="normal"
+            />
+          <br />
+          <Button
+            type='submit'
+            variant='outlined'
+            size='small'
+            >
+            REGISTER
+          </Button>
+        </form>
+      </Container>
     )
+    
     return (
-      <div>
+      <Container maxWidth='sm'>
         {form}
-      </div>
+      </Container>
       
     )
   }

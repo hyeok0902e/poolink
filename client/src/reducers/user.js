@@ -15,6 +15,7 @@ const userReducer = (state = initialState, action) => {
         error: false
       }
     case types.USER_CHECK_SUCCESS:
+      
       return {
         ...state,
         isLoading: false,
