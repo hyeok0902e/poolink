@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { register } from '../../../actions/auth'
+import { Link } from 'react-router-dom';
 import { Container, Typography, TextField, Button } from '@material-ui/core';
+
+import { register } from '../../../actions/auth';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -77,12 +79,32 @@ class RegisterForm extends Component {
             REGISTER
           </Button>
         </form>
+        <br />
+        <Container maxWidth='sm' align='center'>
+          <Typography 
+            variant='subtitle1'
+            align='center'
+            color='textSecondary'
+            component='p'
+            >
+              이미 회원이신가요?
+          </Typography>
+          <Link to='/login' className='toolbarLink'>
+            <Button
+              variant='outlined'
+              size='small'
+              >
+              Login
+            </Button>
+          </Link>
+        </Container>
       </Container>
     )
-    
+
     return (
       <Container maxWidth='sm'>
         {form}
+        
       </Container>
       
     )
