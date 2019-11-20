@@ -9,6 +9,7 @@
 .toolbarSecondary {
   justify-content: space-between;
   overflow-x: auto;
+  margin-bottom: 48px;
 }
 
 .toolbarLink {
