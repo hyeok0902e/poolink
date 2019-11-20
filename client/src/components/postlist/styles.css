@@ -1,0 +1,15 @@
+.progress {
+  margin-top: 64px;
+}
+
+.Link {
+  text-decoration: none;
+}
+
+.Link:hover {
+  text-decoration: underline;
+}
+
+.postWrapper {
+  margin-top: 40px;
+}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getDetailPost } from '../../../actions/post';
 import Post from '../../../components/post/index';
 import CommentContainer from '../../../containers/comment/index';
+import { Container } from '@material-ui/core';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -12,10 +13,10 @@ class PostDetail extends Component {
 
   render() {
     return (
-      <div>
+      <Container maxWidth='lg'>
         <Post {...this.props} />
         <CommentContainer {...this.props}/>
-      </div>
+      </Container>
     );
   }
 }
