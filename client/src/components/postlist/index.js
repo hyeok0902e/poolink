@@ -81,7 +81,7 @@ class PostList extends Component {
             <TableBody>
               {currentPosts.map(post => {
                 return(
-                  <TableRow>
+                  <TableRow key={post.id}>
                   <TableCell>
                     <Link to={'/' + post.id} className="Link">{post.title}</Link>
                   </TableCell>
