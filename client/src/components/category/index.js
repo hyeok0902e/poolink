@@ -1,18 +1,41 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Toolbar } from '@material-ui/core';
+import './styles.css';
 
-class Category extends Component {
+export default class Category extends Component {
   render() {
     const categories = this.props.categories.map(category => {
       return(
-        <ul key={category.id}>
-          <li>{category.title}</li>
-        </ul>
+        <Link 
+          // to={'category?' + category.slug}
+          to='/'
+          key={category.id}
+          color='inherit'
+          variant='body2'
+          className='toolbarLink'
+          >
+          {category.title}
+        </Link>
       )
     })
+
     return (
-      <div>
+      <Toolbar
+        component='nav'
+        variant='dense'
+        className='toolbarSecondary'
+        >
         {categories}
-      </div>
+        <Link 
+          to='/posts'
+          color='inherit'
+          variant='body2'
+          className='toolbarLink'
+          >
+          POSTLIST
+        </Link>
+      </Toolbar>
     );
   }
 }

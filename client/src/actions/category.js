@@ -8,10 +8,11 @@ export const getCategoryRequest = () => {
     };
 };
 
-export const getCategorySuccess = () => {
+export const getCategorySuccess = (data) => {
     console.log("GET_CATEGORY_SUCCESS");
     return {
-        type: types.GET_CATEGORY_SUCCESS
+        type: types.GET_CATEGORY_SUCCESS,
+        categories: data
     };
 };
 
@@ -28,8 +29,7 @@ export const getCategory = () => dispatch => {
 
     return axios.get('http://127.0.0.1:8000/api/categories/')
         .then(res => {
-            dispatch(getCategorySuccess)
-            return res.data;
+            dispatch(getCategorySuccess(res.data));
         })
-        .catch(error => dispatch(getCategoryFailure));
+        .catch(error => dispatch(getCategoryFailure(error)));
 }
